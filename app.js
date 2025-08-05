@@ -21,17 +21,17 @@ const state = {
         beleihung: 640000,
         beteiligung: 50,
         zinssatz: 3.7,
-        zinssatz_a: 3.7,
-        zinssatz_b: 3.7,
+        'zinssatz-a': 3.7,
+        'zinssatz-b': 3.7,
         bauzeit: 18,
-        bauzeit_a: 18,
-        bauzeit_b: 18,
+        'bauzeit-a': 18,
+        'bauzeit-b': 18,
         verkaufspreis_qm: 8750,
         vertriebskosten: 3,
-        eigenkapital_a: 500000,
-        eigenkapital_b: 500000,
-        beleihung_a: 320000,
-        beleihung_b: 320000
+        'eigenkapital-a': 500000,
+        'eigenkapital-b': 500000,
+        'beleihung-a': 320000,
+        'beleihung-b': 320000
       },
       constructionItems: [
         { id: 'tiefbau', name: 'Tiefbau', cost: 300000 },
@@ -794,6 +794,8 @@ function calculate() {
   let financingCosts;
   let creditA = 0, creditB = 0; // Define these in outer scope
   let financingCostsA = 0, financingCostsB = 0; // FIXED: Move variable declarations to outer scope
+  let bauzeitA = data.bauzeit || 18; // FIXED: Move to outer scope with default
+  let bauzeitB = data.bauzeit || 18; // FIXED: Move to outer scope with default
   
   if (state.partnerView === 'split') {
     // Calculate separate financing costs for each partner
@@ -801,8 +803,9 @@ function calculate() {
     const shareB = totalInvestment * (state.partnerSplit.b / 100);
     creditA = Math.max(0, shareA - (data['eigenkapital-a'] || 0));
     creditB = Math.max(0, shareB - (data['eigenkapital-b'] || 0));
-    const bauzeitA = data['bauzeit-a'] || data.bauzeit || 18;
-    const bauzeitB = data['bauzeit-b'] || data.bauzeit || 18;
+    // Update bauzeit values for split mode, supporting both formats
+    bauzeitA = data['bauzeit-a'] || data.bauzeit || 18;
+    bauzeitB = data['bauzeit-b'] || data.bauzeit || 18;
     // FIXED: Add proper rounding to prevent floating point precision issues
     financingCostsA = Math.round(creditA * ((data['zinssatz-a'] || data.zinssatz) / 100) * (bauzeitA / 12));
     financingCostsB = Math.round(creditB * ((data['zinssatz-b'] || data.zinssatz) / 100) * (bauzeitB / 12));
@@ -1169,12 +1172,12 @@ function updateAllocationBars(data, totalInvestment, creditNeeded) {
       return;
     }
     
-    const klausCreditNeeded = Math.max(0, klausInvestment - (data.eigenkapital_a || 0));
-    const kevinCreditNeeded = Math.max(0, kevinInvestment - (data.eigenkapital_b || 0));
+    const klausCreditNeeded = Math.max(0, klausInvestment - (data['eigenkapital-a'] || 0));
+    const kevinCreditNeeded = Math.max(0, kevinInvestment - (data['eigenkapital-b'] || 0));
     
     // Klaus allocation bar - with NaN protection
-    const klausEigenkapitalPercent = ((data.eigenkapital_a || 0) / klausInvestment) * 100;
-    const klausBeleihungPercent = ((data.beleihung_a || 0) / klausInvestment) * 100;
+    const klausEigenkapitalPercent = ((data['eigenkapital-a'] || 0) / klausInvestment) * 100;
+    const klausBeleihungPercent = ((data['beleihung-a'] || 0) / klausInvestment) * 100;
     const klausKreditPercent = (klausCreditNeeded / klausInvestment) * 100;
     
     const safeKlausEK = isNaN(klausEigenkapitalPercent) ? 0 : Math.max(0, klausEigenkapitalPercent);
@@ -1205,8 +1208,8 @@ function updateAllocationBars(data, totalInvestment, creditNeeded) {
     }
     
     // Kevin allocation bar - with NaN protection
-    const kevinEigenkapitalPercent = ((data.eigenkapital_b || 0) / kevinInvestment) * 100;
-    const kevinBeleihungPercent = ((data.beleihung_b || 0) / kevinInvestment) * 100;
+    const kevinEigenkapitalPercent = ((data['eigenkapital-b'] || 0) / kevinInvestment) * 100;
+    const kevinBeleihungPercent = ((data['beleihung-b'] || 0) / kevinInvestment) * 100;
     const kevinKreditPercent = (kevinCreditNeeded / kevinInvestment) * 100;
     
     const safeKevinEK = isNaN(kevinEigenkapitalPercent) ? 0 : Math.max(0, kevinEigenkapitalPercent);
@@ -1471,14 +1474,14 @@ function updatePrintView() {
       
       const shareA = totalInvestment * (state.partnerSplit.a / 100);
       const shareB = totalInvestment * (state.partnerSplit.b / 100);
-      const fundsA = (currentData.eigenkapital_a || 0);
-      const fundsB = (currentData.eigenkapital_b || 0);
+      const fundsA = (currentData['eigenkapital-a'] || 0);
+      const fundsB = (currentData['eigenkapital-b'] || 0);
       const creditA = Math.max(0, shareA - fundsA);
       const creditB = Math.max(0, shareB - fundsB);
-      const bauzeitA = currentData.bauzeit_a || currentData.bauzeit || 18;
-      const bauzeitB = currentData.bauzeit_b || currentData.bauzeit || 18;
-      const financingCostsA = Math.round(creditA * ((currentData.zinssatz_a || currentData.zinssatz) / 100) * (bauzeitA / 12));
-      const financingCostsB = Math.round(creditB * ((currentData.zinssatz_b || currentData.zinssatz) / 100) * (bauzeitB / 12));
+      const bauzeitA = currentData['bauzeit-a'] || currentData.bauzeit || 18;
+      const bauzeitB = currentData['bauzeit-b'] || currentData.bauzeit || 18;
+      const financingCostsA = Math.round(creditA * ((currentData['zinssatz-a'] || currentData.zinssatz) / 100) * (bauzeitA / 12));
+      const financingCostsB = Math.round(creditB * ((currentData['zinssatz-b'] || currentData.zinssatz) / 100) * (bauzeitB / 12));
       
       partnerSplitDiv.style.display = 'block';
       partnerDetails.className = 'print-partner-details';
@@ -1495,7 +1498,7 @@ function updatePrintView() {
           </div>
           <div class="partner-detail-item">
             <span>Eigenkapital:</span>
-            <span>${formatCurrency(currentData.eigenkapital_a || 0)}</span>
+            <span>${formatCurrency(currentData['eigenkapital-a'] || 0)}</span>
           </div>
           <div class="partner-detail-item">
             <span>Kreditbedarf:</span>
@@ -1518,7 +1521,7 @@ function updatePrintView() {
           </div>
           <div class="partner-detail-item">
             <span>Eigenkapital:</span>
-            <span>${formatCurrency(currentData.eigenkapital_b || 0)}</span>
+            <span>${formatCurrency(currentData['eigenkapital-b'] || 0)}</span>
           </div>
           <div class="partner-detail-item">
             <span>Kreditbedarf:</span>
@@ -1990,10 +1993,10 @@ function loadProject(e) {
         }
         const defaultData = {
           sonstige_kosten_prozent: 5,
-          eigenkapital_a: 0,
-          eigenkapital_b: 0,
-          beleihung_a: 0,
-          beleihung_b: 0
+          'eigenkapital-a': 0,
+          'eigenkapital-b': 0,
+          'beleihung-a': 0,
+          'beleihung-b': 0
         };
         Object.keys(defaultData).forEach(key => {
           if (scenario.data[key] === undefined) {
@@ -2134,12 +2137,12 @@ function exportData() {
   } else {
     csvData.push(
       ['FINANZIERUNG KLAUS'],
-      ['Eigenkapital Klaus:', data.eigenkapital_a + ' €'],
-      ['Beleihung Klaus:', data.beleihung_a + ' €'],
+      ['Eigenkapital Klaus:', data['eigenkapital-a'] + ' €'],
+      ['Beleihung Klaus:', data['beleihung-a'] + ' €'],
       [''],
       ['FINANZIERUNG KEVIN'],
-      ['Eigenkapital Kevin:', data.eigenkapital_b + ' €'],
-      ['Beleihung Kevin:', data.beleihung_b + ' €'],
+      ['Eigenkapital Kevin:', data['eigenkapital-b'] + ' €'],
+      ['Beleihung Kevin:', data['beleihung-b'] + ' €'],
       ['']
     );
   }
