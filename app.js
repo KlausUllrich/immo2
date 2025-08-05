@@ -597,8 +597,10 @@ function togglePartnerView(view) {
 
 // Update partner split display
 function updatePartnerSplitDisplay() {
-  document.getElementById('partner-a-split').textContent = state.partnerSplit.a;
-  document.getElementById('partner-b-split').textContent = state.partnerSplit.b;
+  const partnerASplit = document.getElementById('partner-a-split');
+  const partnerBSplit = document.getElementById('partner-b-split');
+  if (partnerASplit) partnerASplit.textContent = state.partnerSplit.a;
+  if (partnerBSplit) partnerBSplit.textContent = state.partnerSplit.b;
   document.querySelectorAll('.partner-a-percent').forEach(el => {
     el.textContent = state.partnerSplit.a;
   });
@@ -794,13 +796,13 @@ function calculate() {
     // Calculate separate financing costs for each partner
     const shareA = totalInvestment * (state.partnerSplit.a / 100);
     const shareB = totalInvestment * (state.partnerSplit.b / 100);
-    creditA = Math.max(0, shareA - (data.eigenkapital_a || 0));
-    creditB = Math.max(0, shareB - (data.eigenkapital_b || 0));
-    const bauzeitA = data.bauzeit_a || data.bauzeit || 18;
-    const bauzeitB = data.bauzeit_b || data.bauzeit || 18;
+    creditA = Math.max(0, shareA - (data['eigenkapital-a'] || 0));
+    creditB = Math.max(0, shareB - (data['eigenkapital-b'] || 0));
+    const bauzeitA = data['bauzeit-a'] || data.bauzeit || 18;
+    const bauzeitB = data['bauzeit-b'] || data.bauzeit || 18;
     // FIXED: Add proper rounding to prevent floating point precision issues
-    financingCostsA = Math.round(creditA * ((data.zinssatz_a || data.zinssatz) / 100) * (bauzeitA / 12));
-    financingCostsB = Math.round(creditB * ((data.zinssatz_b || data.zinssatz) / 100) * (bauzeitB / 12));
+    financingCostsA = Math.round(creditA * ((data['zinssatz-a'] || data.zinssatz) / 100) * (bauzeitA / 12));
+    financingCostsB = Math.round(creditB * ((data['zinssatz-b'] || data.zinssatz) / 100) * (bauzeitB / 12));
     financingCosts = financingCostsA + financingCostsB;
   } else {
     // FIXED: Add proper rounding to prevent floating point precision issues
@@ -922,8 +924,9 @@ function calculate() {
     yourProfit = projectProfit * (data.beteiligung / 100);
   }
   
-  const returnOnEquity = (yourProfit / yourFunds) * 100;
-  const annualReturn = (Math.pow(1 + (yourProfit / yourFunds), 12 / data.bauzeit) - 1) * 100;
+  const yourFunds = data.eigenkapital || 0;
+  const returnOnEquity = yourFunds > 0 ? (yourProfit / yourFunds) * 100 : 0;
+  const annualReturn = yourFunds > 0 ? (Math.pow(1 + (yourProfit / yourFunds), 12 / data.bauzeit) - 1) * 100 : 0;
   
   // Update summary UI
   document.getElementById('total-investment').textContent = formatCurrency(totalWithFinancing);
