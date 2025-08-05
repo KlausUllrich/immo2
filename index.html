@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>K&K Immo Idee</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <div class="main-container">
+            <!-- Header -->
+            <header class="app-header">
+                <div class="header-left">
+                    <h1 class="app-title">K&K Immo Idee</h1>
+                    <input type="text" class="project-name" placeholder="Projektname eingeben..." value="Wolfratshauser Str. 205">
+                </div>
+                <div class="header-right">
+                    <div class="partner-toggle">
+                        <button class="toggle-btn active" data-view="combined">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                            </svg>
+                            Gemeinsam
+                        </button>
+                        <button class="toggle-btn" data-view="split">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="8.5" cy="7" r="4"></circle>
+                                <line x1="12" y1="1" x2="12" y2="23" stroke-dasharray="2 2"></line>
+                                <path d="M20 21v-2a4 4 0 0 0-4-4h-3"></path>
+                                <circle cx="15.5" cy="7" r="4"></circle>
+                            </svg>
+                            Klaus/Kevin
+                        </button>
+                    </div>
+                    <div class="header-actions">
+                        <button class="btn-icon" title="Drucken" onclick="window.print()">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M6 9V2h12v7"></path>
+                                <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                                <path d="M6 14h12v8H6z"></path>
+                            </svg>
+                        </button>
+                        <button class="btn-icon" title="Exportieren" id="exportBtn">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="7 10 12 15 17 10"></polyline>
+                                <line x1="12" y1="15" x2="12" y2="3"></line>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Scenario Management -->
+            <div class="scenario-management">
+                <div class="scenario-tabs" id="scenarioTabs">
+                    <button class="scenario-tab active" data-scenario="realistic">
+                        Realistic Case
+                    </button>
+                    <button class="scenario-tab" data-scenario="best">
+                        <svg class="scenario-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline>
+                            <polyline points="17 6 23 6 23 12"></polyline>
+                        </svg>
+                        Best Case
+                    </button>
+                    <button class="scenario-tab" data-scenario="worst">
+                        <svg class="scenario-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline>
+                            <polyline points="17 18 23 18 23 12"></polyline>
+                        </svg>
+                        Worst Case
+                    </button>
+                    <button class="scenario-tab scenario-add" id="addScenarioBtn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                        Neu
+                    </button>
+                </div>
+                <div class="scenario-actions">
+                    <button class="btn-secondary" id="copyScenarioBtn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                        Kopieren
+                    </button>
+                    <button class="btn-secondary" id="renameScenarioBtn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                            <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                        </svg>
+                        Umbenennen
+                    </button>
+                    <button class="btn-danger" id="deleteScenarioBtn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="3 6 5 6 21 6"></polyline>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                        </svg>
+                        Löschen
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tab Navigation -->
+            <nav class="tab-navigation">
+                <button class="tab-btn active" data-tab="property">
+                    <span class="tab-number">1</span>
+                    Immobilienkosten
+                </button>
+                <button class="tab-btn" data-tab="construction">
+                    <span class="tab-number">2</span>
+                    Neubau
+                </button>
+                <button class="tab-btn" data-tab="financing">
+                    <span class="tab-number">3</span>
+                    Finanzierung
+                </button>
+                <button class="tab-btn" data-tab="sale">
+                    <span class="tab-number">4</span>
+                    Verkauf
+                </button>
+                <button class="tab-btn" data-tab="summary">
+                    <span class="tab-number">5</span>
+                    Zusammenfassung
+                </button>
+                <button class="tab-btn" data-tab="analysis">
+                    <span class="tab-number">6</span>
+                    Analyse
+                </button>
+            </nav>
+
+            <!-- Tab Content -->
+            <div class="tab-content">
+                <!-- Tab 1: Immobilienkosten -->
+                <div class="tab-panel active" id="property-tab">
+                    <h2 class="tab-title">Immobilienkosten</h2>
+                    <div class="input-grid">
+                        <div class="input-group">
+                            <label for="grundstueck">Grundstückspreis</label>
+                            <div class="currency-input">
+                                <input type="number" id="grundstueck" value="2200000" step="5000" min="0">
+                                <div class="step-buttons">
+                                    <button class="step-btn step-up" data-input="grundstueck" data-step="5000">▲</button>
+                                    <button class="step-btn step-down" data-input="grundstueck" data-step="-5000">▼</button>
+                                </div>
+                                <span class="currency">€</span>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label for="makler">Maklergebühr (%)</label>
+                            <div class="percentage-input">
+                                <input type="number" id="makler" value="3.57" step="0.1" min="0" max="10">
+                                <div class="step-buttons">
+                                    <button class="step-btn step-up" data-input="makler" data-step="0.1">▲</button>
+                                    <button class="step-btn step-down" data-input="makler" data-step="-0.1">▼</button>
+                                </div>
+                                <span class="unit">%</span>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label>Maklergebühr</label>
+                            <div class="calculated-value" id="maklergebuehr">0 €</div>
+                        </div>
+                        <div class="input-group">
+                            <label>Grunderwerbsteuer (3,5%)</label>
+                            <div class="calculated-value" id="grunderwerbsteuer">0 €</div>
+                        </div>
+                        <div class="input-group">
+                            <label>Notar/Grundbuch (1,5%)</label>
+                            <div class="calculated-value" id="notarkosten">0 €</div>
+                        </div>
+                        <div class="input-group">
+                            <label for="abriss">Abrisskosten</label>
+                            <div class="currency-input">
+                                <input type="number" id="abriss" value="150000" step="5000" min="0">
+                                <div class="step-buttons">
+                                    <button class="step-btn step-up" data-input="abriss" data-step="5000">▲</button>
+                                    <button class="step-btn step-down" data-input="abriss" data-step="-5000">▼</button>
+                                </div>
+                                <span class="currency">€</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="section-summary">
+                        <h3>Zwischensumme: Kosten Bestandsimmobilie</h3>
+                        <div class="summary-value" id="property-total">0 €</div>
+                    </div>
+                </div>
+
+                <!-- Tab 2: Finanzierung -->
+                <div class="tab-panel" id="financing-tab">
+                    <h2 class="tab-title">Finanzierung</h2>
+                    
+                    <!-- Total Costs Display -->
+                    <div class="financing-total">
+                        <h3>Zwischensumme: Bestand + Neubau</h3>
+                        <div class="total-value" id="financing-property-cost">0 €</div>
+                        <div class="partner-financing" id="partner-property-costs" style="display: none;">
+                            <div class="partner-financing-item">
+                                <div class="label">Klaus (<span class="partner-a-percent">50</span>%)</div>
+                                <div class="value" id="partner-a-property-cost">0 €</div>
+                            </div>
+                            <div class="partner-financing-item">
+                                <div class="label">Kevin (<span class="partner-b-percent">50</span>%)</div>
+                                <div class="value" id="partner-b-property-cost">0 €</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="partner-split-container" id="financingContainer">
+                        <!-- Combined View (default) - Unified structure matching Klaus/Kevin layout -->
+                        <div class="combined-view">
+                            <div class="input-grid">
+                                <div class="input-group">
+                                    <label for="eigenkapital">Eigenkapital gesamt</label>
+                                    <div class="currency-input">
+                                        <input type="number" id="eigenkapital" value="1000000" step="5000" min="0">
+                                        <div class="step-buttons">
+                                            <button class="step-btn step-up" data-input="eigenkapital" data-step="5000">▲</button>
+                                            <button class="step-btn step-down" data-input="eigenkapital" data-step="-5000">▼</button>
+                                        </div>
+                                        <span class="currency">€</span>
+                                    </div>
+                                </div>
+                                <div class="input-group">
+                                    <label for="beleihung">Beleihung Bestandsimmobilie</label>
+                                    <div class="currency-input">
+                                        <input type="number" id="beleihung" value="640000" step="5000" min="0">
+                                        <div class="step-buttons">
+                                            <button class="step-btn step-up" data-input="beleihung" data-step="5000">▲</button>
+                                            <button class="step-btn step-down" data-input="beleihung" data-step="-5000">▼</button>
+                                        </div>
+                                        <span class="currency">€</span>
+                                    </div>
+                                </div>
+                                <div class="input-group">
+                                    <label for="zinssatz">Zinssatz p.a.</label>
+                                    <div class="percentage-input">
+                                        <input type="number" id="zinssatz" value="3.7" min="0" max="20" step="0.1">
+                                        <span class="unit">%</span>
+                                    </div>
+                                </div>
+                                <div class="input-group">
+                                    <label for="bauzeit">Zeit bis Verkauf</label>
+                                    <div class="number-input">
+                                        <input type="number" id="bauzeit" value="18" min="1" max="60" step="1">
+                                        <span class="unit">Monate</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Split View (hidden by default) -->
+                        <div class="split-view" style="display: none;">
+                            <!-- Partner Split Controls -->
+                            <div class="split-control" style="grid-column: 1 / -1;">
+                                <h4>Kostenaufteilung zwischen Partnern</h4>
+                                <div class="split-slider-container">
+                                    <input type="range" id="partner-split-slider" value="50" min="0" max="100" step="1" style="width: 100%;">
+                                </div>
+                                <div class="split-slider-labels">
+                                    <span>Klaus: <strong id="partner-a-split">50</strong>%</span>
+                                    <span>Kevin: <strong id="partner-b-split">50</strong>%</span>
+                                </div>
+                            </div>
+                            
+                            <div class="partner-column partner-a">
+                                <h3>Klaus <span class="percentage partner-a-percentage">50%</span></h3>
+                                <div class="partner-inputs">
+                                    <div class="input-group">
+                                        <label for="eigenkapital-a">Eigenkapital</label>
+                                        <div class="currency-input">
+                                            <input type="number" id="eigenkapital-a" value="500000" step="5000" min="0">
+                                            <span class="currency">€</span>
+                                        </div>
+                                    </div>
+                                    <div class="input-group">
+                                        <label for="beleihung-a">Beleihung</label>
+                                        <div class="currency-input">
+                                            <input type="number" id="beleihung-a" value="320000" step="5000" min="0">
+                                            <span class="currency">€</span>
+                                        </div>
+                                    </div>
+                                    <div class="input-group">
+                                        <label for="zinssatz-a">Zinssatz p.a.</label>
+                                        <div class="percentage-input">
+                                            <input type="number" id="zinssatz-a" value="3.7" min="0" max="20" step="0.1">
+                                            <span class="unit">%</span>
+                                        </div>
+                                    </div>
+                                    <div class="input-group">
+                                        <label for="bauzeit-a">Zeit bis Verkauf</label>
+                                        <div class="number-input">
+                                            <input type="number" id="bauzeit-a" value="18" min="1" max="60" step="1">
+                                            <span class="unit">Monate</span>
+                                        </div>
+                                    </div>
+                                    <div class="partner-summary">
+                                        <div class="summary-item">
+                                            <span>Kreditbedarf</span>
+                                            <span class="value" id="kredit-a">180.000 €</span>
+                                        </div>
+                                        <div class="summary-item">
+                                            <span>Zinskosten (<span id="zinssatz-a-display">3.7</span>% p.a. über <span id="bauzeit-a-display">18</span> Monate)</span>
+                                            <span class="value" id="zinskosten-a">0 €</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="partner-column partner-b">
+                                <h3>Kevin <span class="percentage partner-b-percentage">50%</span></h3>
+                                <div class="partner-inputs">
+                                    <div class="input-group">
+                                        <label for="eigenkapital-b">Eigenkapital</label>
+                                        <div class="currency-input">
+                                            <input type="number" id="eigenkapital-b" value="500000" step="5000" min="0">
+                                            <span class="currency">€</span>
+                                        </div>
+                                    </div>
+                                    <div class="input-group">
+                                        <label for="beleihung-b">Beleihung</label>
+                                        <div class="currency-input">
+                                            <input type="number" id="beleihung-b" value="320000" step="5000" min="0">
+                                            <span class="currency">€</span>
+                                        </div>
+                                    </div>
+                                    <div class="input-group">
+                                        <label for="zinssatz-b">Zinssatz p.a.</label>
+                                        <div class="percentage-input">
+                                            <input type="number" id="zinssatz-b" value="3.7" min="0" max="20" step="0.1">
+                                            <span class="unit">%</span>
+                                        </div>
+                                    </div>
+                                    <div class="input-group">
+                                        <label for="bauzeit-b">Zeit bis Verkauf</label>
+                                        <div class="number-input">
+                                            <input type="number" id="bauzeit-b" value="18" min="1" max="60" step="1">
+                                            <span class="unit">Monate</span>
+                                        </div>
+                                    </div>
+                                    <div class="partner-summary">
+                                        <div class="summary-item">
+                                            <span>Kreditbedarf</span>
+                                            <span class="value" id="kredit-b">180.000 €</span>
+                                        </div>
+                                        <div class="summary-item">
+                                            <span>Zinskosten (<span id="zinssatz-b-display">3.7</span>% p.a. über <span id="bauzeit-b-display">18</span> Monate)</span>
+                                            <span class="value" id="zinskosten-b">0 €</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Financing Summary Section -->
+                    <div class="financing-summary combined-only">
+                        <h3>Finanzierungsbedarf</h3>
+                        <div class="summary-item">
+                            <span>- Eigenkapital</span>
+                            <span class="value" id="summary-eigenkapital">0 €</span>
+                        </div>
+                        <div class="summary-item">
+                            <span>- Beleihung</span>
+                            <span class="value" id="summary-beleihung">0 €</span>
+                        </div>
+                        <div class="summary-item emphasized">
+                            <span>= Finanzierungsbedarf</span>
+                            <span class="value" id="financing-need">0 €</span>
+                        </div>
+                        <div class="summary-item">
+                            <span>Zinskosten (<span id="interest-rate-display">3.7</span>% p.a. über <span id="bauzeit-display">18</span> Monate)</span>
+                            <span class="value" id="interest-costs">0 €</span>
+                        </div>
+                    </div>
+                    
+                    <div class="allocation-bar combined-only">
+                        <div class="bar-segment eigenkapital" style="width: 30%">
+                            <span>Eigenkapital</span>
+                            <span class="percentage">30%</span>
+                        </div>
+                        <div class="bar-segment beleihung" style="width: 20%">
+                            <span>Beleihung</span>
+                            <span class="percentage">20%</span>
+                        </div>
+                        <div class="bar-segment kredit" style="width: 50%">
+                            <span>Kredit</span>
+                            <span class="percentage">50%</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Individual Partner Capital Allocation Bars -->
+                    <div class="partner-allocation-bars split-only" style="display: none;">
+                        <div class="partner-allocation-section">
+                            <h4>Klaus - Kapitalverteilung</h4>
+                            <div class="allocation-bar partner-bar">
+                                <div class="bar-segment eigenkapital" id="klaus-eigenkapital-bar" style="width: 30%">
+                                    <span>Eigenkapital</span>
+                                    <span class="percentage" id="klaus-eigenkapital-percent">30%</span>
+                                </div>
+                                <div class="bar-segment beleihung" id="klaus-beleihung-bar" style="width: 20%">
+                                    <span>Beleihung</span>
+                                    <span class="percentage" id="klaus-beleihung-percent">20%</span>
+                                </div>
+                                <div class="bar-segment kredit" id="klaus-kredit-bar" style="width: 50%">
+                                    <span>Kredit</span>
+                                    <span class="percentage" id="klaus-kredit-percent">50%</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="partner-allocation-section">
+                            <h4>Kevin - Kapitalverteilung</h4>
+                            <div class="allocation-bar partner-bar">
+                                <div class="bar-segment eigenkapital" id="kevin-eigenkapital-bar" style="width: 30%">
+                                    <span>Eigenkapital</span>
+                                    <span class="percentage" id="kevin-eigenkapital-percent">30%</span>
+                                </div>
+                                <div class="bar-segment beleihung" id="kevin-beleihung-bar" style="width: 20%">
+                                    <span>Beleihung</span>
+                                    <span class="percentage" id="kevin-beleihung-percent">20%</span>
+                                </div>
+                                <div class="bar-segment kredit" id="kevin-kredit-bar" style="width: 50%">
+                                    <span>Kredit</span>
+                                    <span class="percentage" id="kevin-kredit-percent">50%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab 3: Neubau -->
+                <div class="tab-panel" id="construction-tab">
+                    <h2 class="tab-title">Neubau</h2>
+                    
+                    <!-- Toggle between simple and detailed input -->
+                    <div class="construction-mode-toggle">
+                        <label>
+                            <input type="radio" name="construction-mode" value="simple" checked>
+                            Einfache Eingabe (Preis pro m²)
+                        </label>
+                        <label style="margin-left: 2rem;">
+                            <input type="radio" name="construction-mode" value="detailed">
+                            Detaillierte Eingabe (Einzelpositionen)
+                        </label>
+                    </div>
+                    
+                    <!-- Simple Input Mode -->
+                    <div id="simple-construction">
+                        <div class="input-grid">
+                            <div class="input-group">
+                                <label for="wohnflaeche">Wohnfläche</label>
+                                <div class="number-input">
+                                    <input type="number" id="wohnflaeche" value="800" min="1" step="1">
+                                    <span class="unit">m²</span>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label for="baukosten_qm">Baukosten pro m²</label>
+                                <div class="price-input">
+                                    <input type="number" id="baukosten_qm" value="3500" step="50" min="0">
+                                    <div class="step-buttons">
+                                        <button class="step-btn step-up" data-input="baukosten_qm" data-step="50">▲</button>
+                                        <button class="step-btn step-down" data-input="baukosten_qm" data-step="-50">▼</button>
+                                    </div>
+                                    <span class="unit">€/m²</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="input-grid" style="margin-top: 1rem;">
+                            <div class="input-group">
+                                <label for="baunebenkosten">Baunebenkosten</label>
+                                <div class="percentage-input">
+                                    <input type="number" id="baunebenkosten" value="15" min="0" max="50" step="0.5">
+                                    <span class="unit">%</span>
+                                </div>
+                            </div>
+                            <div class="input-group">
+                                <label for="unvorhergesehen">Unvorhergesehenes</label>
+                                <div class="percentage-input">
+                                    <input type="number" id="unvorhergesehen" value="10" min="0" max="30" step="0.5">
+                                    <span class="unit">%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Detailed Input Mode -->
+                    <div id="detailed-construction" style="display: none;">
+                        <div class="construction-items" id="construction-items-list">
+                            <!-- Construction items will be dynamically populated per scenario -->
+                        </div>
+                        <button class="add-construction-item" onclick="addConstructionItem()">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                            Neue Position hinzufügen
+                        </button>
+                    </div>
+                    
+                    <div class="cost-breakdown">
+                        <h3>Kostenaufstellung</h3>
+                        <div class="breakdown-item">
+                            <span>Reine Baukosten</span>
+                            <span class="value" id="reine-baukosten">2.800.000 €</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span>Baunebenkosten (15%)</span>
+                            <span class="value" id="calc-baunebenkosten">420.000 €</span>
+                        </div>
+                        <div class="breakdown-item">
+                            <span>Unvorhergesehenes (10%)</span>
+                            <span class="value" id="calc-unvorhergesehen">322.000 €</span>
+                        </div>
+                        <div class="breakdown-item total">
+                            <span>Gesamte Baukosten</span>
+                            <span class="value" id="construction-total">3.542.000 €</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Combined Summary: Property + Construction -->
+                    <div class="section-summary">
+                        <h3>Zwischensumme: Bestand + Neubau</h3>
+                        <div class="summary-value" id="total-property-construction">0 €</div>
+                    </div>
+                </div>
+
+                <!-- Tab 4: Verkauf -->
+                <div class="tab-panel" id="sale-tab">
+                    <h2 class="tab-title">Verkauf</h2>
+                    <div class="input-grid">
+                        <div class="input-group">
+                            <label for="verkaufspreis_qm">Verkaufspreis pro m² (<span id="neubau-sqm-info">800 m²</span> im Neubau)</label>
+                            <div class="price-input">
+                                <input type="number" id="verkaufspreis_qm" value="8750" step="50" min="0">
+                                <div class="step-buttons">
+                                    <button class="step-btn step-up" data-input="verkaufspreis_qm" data-step="50">▲</button>
+                                    <button class="step-btn step-down" data-input="verkaufspreis_qm" data-step="-50">▼</button>
+                                </div>
+                                <span class="unit">€/m²</span>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label for="vertriebskosten">Vertriebskosten</label>
+                            <div class="percentage-input">
+                                <input type="number" id="vertriebskosten" value="3" min="0" max="10" step="0.1">
+                                <span class="unit">%</span>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <label for="sonstige_kosten_prozent">Sonstige Kosten</label>
+                            <div class="percentage-input">
+                                <input type="number" id="sonstige_kosten_prozent" value="5" min="0" max="20" step="0.1">
+                                <span class="unit">%</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Revenue Split for Partner Mode -->
+                    <div class="revenue-split-section" id="revenue-split" style="display: none;">
+                        <h3>Erlösaufteilung (Klaus/Kevin)</h3>
+                        <div class="revenue-split-controls">
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="revenue-follows-cost" checked>
+                                <label for="revenue-follows-cost">Erlösaufteilung folgt Kostenaufteilung</label>
+                            </div>
+                            <div class="revenue-split-slider" id="revenue-split-slider-container" style="display: none;">
+                                <div class="split-slider-container">
+                                    <input type="range" id="revenue-split-slider" min="0" max="100" value="50" class="slider" style="width: 100%;">
+                                </div>
+                                <div class="split-slider-labels">
+                                    <span>Klaus: <strong id="revenue-split-a">50</strong>%</span>
+                                    <span>Kevin: <strong id="revenue-split-b">50</strong>%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Partner Revenue Details -->
+                        <div class="partner-revenue-details">
+                            <div class="revenue-detail-item">
+                                <span>Klaus (<span id="revenue-split-a-display">50</span>%)</span>
+                                <span class="value" id="partner-a-revenue">3.370.000 €</span>
+                            </div>
+                            <div class="revenue-detail-item">
+                                <span>Kevin (<span id="revenue-split-b-display">50</span>%)</span>
+                                <span class="value" id="partner-b-revenue">3.370.000 €</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sale-calculation combined-only">
+                        <h3>Verkaufskalkulation</h3>
+                        <div class="calc-item">
+                            <span>Brutto-Verkaufserlös</span>
+                            <span class="value" id="brutto-verkauf">7.000.000 €</span>
+                        </div>
+                        <div class="calc-item">
+                            <span>Vertriebskosten <span id="sales-costs-percent">(3%)</span></span>
+                            <span class="value negative" id="calc-vertriebskosten">-210.000 €</span>
+                        </div>
+                        <div class="calc-item">
+                            <span>Sonstige Kosten <span id="sale-other-costs-percent">(5%)</span></span>
+                            <span class="value negative" id="sale-other-costs-value">-50.000 €</span>
+                        </div>
+                        <div class="calc-item total">
+                            <span>Netto-Verkaufserlös</span>
+                            <span class="value" id="netto-verkauf">6.740.000 €</span>
+                        </div>
+                    </div>
+                    <!-- FIXED 2: Side-by-side layout for partner calculations -->
+                    <div class="sale-calculation split-only">
+                        <h3>Verkaufskalkulation</h3>
+                        <div class="partner-columns">
+                            <div class="partner-calculation-section klaus">
+                                <h4>Klaus</h4>
+                                <div class="calc-item">
+                                    <span>Brutto-Verkaufserlös</span>
+                                    <span class="value" id="brutto-verkauf-a">3.500.000 €</span>
+                                </div>
+                                <div class="calc-item">
+                                    <span>Vertriebskosten</span>
+                                    <span class="value negative" id="calc-vertriebskosten-a">-105.000 €</span>
+                                </div>
+                                <div class="calc-item">
+                                    <span>Sonstige Kosten</span>
+                                    <span class="value negative" id="sale-other-costs-a">-25.000 €</span>
+                                </div>
+                                <div class="calc-item total">
+                                    <span>Netto-Verkaufserlös</span>
+                                    <span class="value" id="netto-verkauf-a">3.370.000 €</span>
+                                </div>
+                            </div>
+                            <div class="partner-calculation-section kevin">
+                                <h4>Kevin</h4>
+                                <div class="calc-item">
+                                    <span>Brutto-Verkaufserlös</span>
+                                    <span class="value" id="brutto-verkauf-b">3.500.000 €</span>
+                                </div>
+                                <div class="calc-item">
+                                    <span>Vertriebskosten</span>
+                                    <span class="value negative" id="calc-vertriebskosten-b">-105.000 €</span>
+                                </div>
+                                <div class="calc-item">
+                                    <span>Sonstige Kosten</span>
+                                    <span class="value negative" id="sale-other-costs-b">-25.000 €</span>
+                                </div>
+                                <div class="calc-item total">
+                                    <span>Netto-Verkaufserlös</span>
+                                    <span class="value" id="netto-verkauf-b">3.370.000 €</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tab 5: Zusammenfassung -->
+                <div class="tab-panel" id="summary-tab">
+                    <h2 class="tab-title">Projektzusammenfassung</h2>
+                    
+                    <!-- Key Metrics -->
+                    <div class="metrics-grid">
+                        <div class="metric-card neutral">
+                            <div class="metric-header">
+                                <h3>Gesamtinvestition</h3>
+                            </div>
+                            <div class="metric-value" id="total-investment">6.002.000 €</div>
+                        </div>
+                        <div class="metric-card profit">
+                            <div class="metric-header">
+                                <h3>Projektgewinn</h3>
+                                <span class="trend-indicator up">↗</span>
+                            </div>
+                            <div class="metric-value" id="project-profit">738.000 €</div>
+                        </div>
+                        <div class="metric-card profit">
+                            <div class="metric-header">
+                                <h3>Rendite p.a.</h3>
+                                <span class="trend-indicator up">↗</span>
+                            </div>
+                            <div class="metric-value" id="annual-return">22.5%</div>
+                            <div class="metric-subtitle">auf Eigenkapital</div>
+                        </div>
+                    </div>
+                    
+                    <!-- FIXED 3: Remove duplicate partner metrics block - keeping only detailed table below -->
+
+                    <!-- Partner Split Summary -->
+                    <div class="partner-summary-section" id="partnerSummary" style="display: none;">
+                        <h3>Partner-Aufteilung</h3>
+                        <div class="partner-summary-grid">
+                            <div class="partner-summary-card partner-a">
+                                <h4 id="partner-a-summary-header">Klaus (50%)</h4>
+                                <div class="summary-item">
+                                    <span>Eigenkapital</span>
+                                    <span class="value" id="summary-eigenkapital-a">500.000 €</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span>Beleihung</span>
+                                    <span class="value" id="summary-beleihung-a">320.000 €</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span>Kreditbedarf</span>
+                                    <span class="value" id="summary-kredit-a">680.500 €</span>
+                                </div>
+                                <div class="summary-item highlight">
+                                    <span>Gewinn</span>
+                                    <span class="value" id="summary-gewinn-a">369.000 €</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span>Rendite p.a.</span>
+                                    <span class="value" id="summary-rendite-a">22.5%</span>
+                                </div>
+                            </div>
+                            <div class="partner-summary-card partner-b">
+                                <h4 id="partner-b-summary-header">Kevin (50%)</h4>
+                                <div class="summary-item">
+                                    <span>Eigenkapital</span>
+                                    <span class="value" id="summary-eigenkapital-b">500.000 €</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span>Beleihung</span>
+                                    <span class="value" id="summary-beleihung-b">320.000 €</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span>Kreditbedarf</span>
+                                    <span class="value" id="summary-kredit-b">680.500 €</span>
+                                </div>
+                                <div class="summary-item highlight">
+                                    <span>Gewinn</span>
+                                    <span class="value" id="summary-gewinn-b">369.000 €</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span>Rendite p.a.</span>
+                                    <span class="value" id="summary-rendite-b">22.5%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Detailed Breakdown -->
+                    <div class="detailed-breakdown">
+                        <h3>Detaillierte Kostenaufstellung</h3>
+                        <table class="breakdown-table">
+                            <thead>
+                                <tr>
+                                    <th>Position</th>
+                                    <th>Betrag</th>
+                                    <th>Anteil</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Grundstück</td>
+                                    <td class="number" id="breakdown-grundstueck">2.200.000 €</td>
+                                    <td class="percentage" id="breakdown-grundstueck-percent">36.7%</td>
+                                </tr>
+                                <tr>
+                                    <td>Grunderwerbsteuer</td>
+                                    <td class="number" id="breakdown-grunderwerbsteuer">77.000 €</td>
+                                    <td class="percentage" id="breakdown-grunderwerbsteuer-percent">1.3%</td>
+                                </tr>
+                                <tr>
+                                    <td>Notar/Grundbuch</td>
+                                    <td class="number" id="breakdown-notar">33.000 €</td>
+                                    <td class="percentage" id="breakdown-notar-percent">0.5%</td>
+                                </tr>
+                                <tr>
+                                    <td>Abriss</td>
+                                    <td class="number" id="breakdown-abriss">150.000 €</td>
+                                    <td class="percentage" id="breakdown-abriss-percent">2.5%</td>
+                                </tr>
+                                <tr>
+                                    <td>Neubaukosten</td>
+                                    <td class="number" id="breakdown-neubau">2.800.000 €</td>
+                                    <td class="percentage" id="breakdown-neubau-percent">46.7%</td>
+                                </tr>
+                                <tr>
+                                    <td>Baunebenkosten</td>
+                                    <td class="number" id="breakdown-baunebenkosten">420.000 €</td>
+                                    <td class="percentage" id="breakdown-baunebenkosten-percent">7.0%</td>
+                                </tr>
+                                <tr>
+                                    <td>Unvorhergesehenes</td>
+                                    <td class="number" id="breakdown-unvorhergesehenes">322.000 €</td>
+                                    <td class="percentage" id="breakdown-unvorhergesehenes-percent">5.4%</td>
+                                </tr>
+                                <tr class="total-row">
+                                    <td><strong>Gesamtkosten</strong></td>
+                                    <td class="number" id="breakdown-total"><strong>6.002.000 €</strong></td>
+                                    <td class="percentage"><strong>100%</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Print Button -->
+                    <div class="print-section">
+                        <button class="btn-primary" onclick="window.print()">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M6 9V2h12v7"></path>
+                                <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+                                <path d="M6 14h12v8H6z"></path>
+                            </svg>
+                            Druckansicht generieren
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Tab 6: Analyse -->
+                <div class="tab-panel" id="analysis-tab">
+                    <h2 class="tab-title">Marktanalyse</h2>
+                    
+                    <div class="market-comparison">
+                        <h3>Marktvergleich</h3>
+                        <div class="comparison-info">
+                            <p>Durchschnittspreis in <span id="market-location-display">München-Pasing</span>: <strong>7.500-9.500 €/m²</strong></p>
+                            <p>Ihr Preis liegt bei: <strong class="highlight" id="your-price-display">8.750 €/m²</strong></p>
+                        </div>
+                    </div>
+                    
+                    <div class="analysis-controls">
+                        <div class="input-grid">
+                            <div class="input-group">
+                                <label>Immobilientyp:</label>
+                                <select id="property-type-select">
+                                    <option value="house">Einfamilienhaus</option>
+                                    <option value="apartment-building">Mehrfamilienhaus</option>
+                                    <option value="flat">Eigentumswohnung</option>
+                                </select>
+                            </div>
+                            <!-- FIXED: Added address input for market comparison -->
+                            <div class="input-group">
+                                <label>Standort für Marktvergleich:</label>
+                                <input type="text" 
+                                       id="market-location-input" 
+                                       placeholder="z.B. München-Pasing, Berlin-Mitte..." 
+                                       value="München-Pasing"
+                                       onchange="updateMarketLocation()">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="analysis-content">
+                        <div class="map-section">
+                            <h3>Durchschnittspreise pro m² in München-Pasing</h3>
+                            <div id="price-map" class="price-map">
+                                <!-- Interactive map visualization -->
+                                <div id="map-container" style="height: 400px; width: 100%; border-radius: 8px; overflow: hidden;">
+                                    <!-- Leaflet map will be initialized here -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="market-stats">
+                            <h3>Marktstatistiken</h3>
+                            <div class="stats-grid">
+                                <div class="stat-card">
+                                    <h4>Durchschnittspreis</h4>
+                                    <div class="stat-value">8.250 €/m²</div>
+                                    <div class="stat-change positive">+5.2% YoY</div>
+                                </div>
+                                <div class="stat-card">
+                                    <h4>Preisspanne</h4>
+                                    <div class="stat-value">6.500 - 10.500 €/m²</div>
+                                    <div class="stat-subtitle">Min - Max letzte 12 Monate</div>
+                                </div>
+                                <div class="stat-card">
+                                    <h4>Marktvolumen</h4>
+                                    <div class="stat-value">342 Objekte</div>
+                                    <div class="stat-subtitle">Verkauft in 2024</div>
+                                </div>
+                                <div class="stat-card">
+                                    <h4>Ø Vermarktungsdauer</h4>
+                                    <div class="stat-value">87 Tage</div>
+                                    <div class="stat-change negative">+12 Tage vs. 2023</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 5-Year Price History Section -->
+                        <div class="price-history">
+                            <h3>Preisentwicklung der letzten 5 Jahre</h3>
+                            <div class="price-history-content">
+                                <div class="price-history-table">
+                                    <table id="price-history-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Jahr</th>
+                                                <th>Durchschnittspreis/m²</th>
+                                                <th>Veränderung</th>
+                                                <th>Trend</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="price-history-data">
+                                            <!-- Data will be populated by JavaScript -->
+                                        </tbody>
+                                    </table>
+                                    <div class="price-history-note">
+                                        <small>* Basierend auf Marktdaten für München-Pasing und Umgebung</small>
+                                    </div>
+                                </div>
+                                <div class="price-comparison">
+                                    <h4>Vergleich zum aktuellen Verkaufspreis</h4>
+                                    <div class="comparison-item">
+                                        <span>Ihr Verkaufspreis:</span>
+                                        <span class="current-price" id="current-selling-price">8.750 €/m²</span>
+                                    </div>
+                                    <div class="comparison-item">
+                                        <span>5-Jahres-Durchschnitt:</span>
+                                        <span class="avg-price" id="five-year-average">7.650 €/m²</span>
+                                    </div>
+                                    <div class="comparison-item">
+                                        <span>Abweichung:</span>
+                                        <span class="price-difference" id="price-difference">+14.4%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="price-development">
+                            <h3>Preisentwicklung (Chart)</h3>
+                            <div class="chart-container">
+                                <canvas id="price-chart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="interest-rates">
+                            <h3>Bauzinsentwicklung</h3>
+                            <div class="chart-container">
+                                <canvas id="interest-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Save/Load Controls -->
+            <div class="save-load-controls">
+                <button class="btn-secondary" id="saveProjectBtn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                        <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                        <polyline points="7 3 7 8 15 8"></polyline>
+                    </svg>
+                    Projekt speichern
+                </button>
+                <button class="btn-secondary" id="loadProjectBtn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="17 8 12 3 7 8"></polyline>
+                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                    </svg>
+                    Projekt laden
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden file input for loading projects -->
+    <input type="file" id="fileInput" accept=".json" style="display: none;">
+    
+    <!-- Print View (hidden by default) -->
+    <div class="print-view" style="display: none;">
+        <div class="print-header">
+            <h1 id="print-project-name">Immobilienprojekt</h1>
+            <div class="project-info">
+                <span id="print-date"></span> | K&K Immo Idee - Kalkulationsübersicht
+            </div>
+        </div>
+        
+        <div class="print-key-data">
+            <h3>Projektdaten</h3>
+            <div class="print-data-grid" id="print-key-data">
+                <!-- Key data will be dynamically inserted here -->
+            </div>
+        </div>
+        
+        <div class="print-scenarios" id="print-scenarios">
+            <!-- Scenarios will be dynamically inserted here -->
+        </div>
+        
+        <div class="print-cost-breakdown">
+            <h3>Detaillierte Kostenaufstellung</h3>
+            <div id="print-cost-details">
+                <!-- Cost breakdown will be dynamically inserted here -->
+            </div>
+        </div>
+        
+        <div class="print-partner-split" id="print-partner-split" style="display: none;">
+            <h3>Partner Aufteilung</h3>
+            <div id="print-partner-details">
+                <!-- Partner split details will be dynamically inserted here -->
+            </div>
+        </div>
+        
+        <div class="print-footer">
+            K&K Immo Idee - Immobilienkalkulation
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Leaflet CSS and JS for OpenStreetMap -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="munich-districts-data.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
