@@ -776,10 +776,13 @@ function calculate() {
   
   // Update financing tab displays - use total investment (property + construction)
   const totalProjectCost = propertyTotal + constructionTotal;
-  document.getElementById('financing-property-cost').textContent = formatCurrency(totalProjectCost);
+  const financingPropertyCost = document.getElementById('financing-property-cost');
+  if (financingPropertyCost) financingPropertyCost.textContent = formatCurrency(totalProjectCost);
   if (state.partnerView === 'split') {
-    document.getElementById('partner-a-property-cost').textContent = formatCurrency(totalProjectCost * (state.partnerSplit.a / 100));
-    document.getElementById('partner-b-property-cost').textContent = formatCurrency(totalProjectCost * (state.partnerSplit.b / 100));
+    const partnerAPropertyCost = document.getElementById('partner-a-property-cost');
+    const partnerBPropertyCost = document.getElementById('partner-b-property-cost');
+    if (partnerAPropertyCost) partnerAPropertyCost.textContent = formatCurrency(totalProjectCost * (state.partnerSplit.a / 100));
+    if (partnerBPropertyCost) partnerBPropertyCost.textContent = formatCurrency(totalProjectCost * (state.partnerSplit.b / 100));
   }
   
   // Financing
@@ -824,18 +827,26 @@ function calculate() {
   
   // Partner split calculations - update credit display
   if (state.partnerView === 'split') {
-    document.getElementById('kredit-a').textContent = formatCurrency(creditA);
-    document.getElementById('kredit-b').textContent = formatCurrency(creditB);
+    const kreditA = document.getElementById('kredit-a');
+    const kreditB = document.getElementById('kredit-b');
+    if (kreditA) kreditA.textContent = formatCurrency(creditA);
+    if (kreditB) kreditB.textContent = formatCurrency(creditB);
     
     // Update Zinskosten displays for partners
-    document.getElementById('zinskosten-a').textContent = formatCurrency(financingCostsA);
-    document.getElementById('zinskosten-b').textContent = formatCurrency(financingCostsB);
+    const zinskostenA = document.getElementById('zinskosten-a');
+    const zinskostenB = document.getElementById('zinskosten-b');
+    if (zinskostenA) zinskostenA.textContent = formatCurrency(financingCostsA);
+    if (zinskostenB) zinskostenB.textContent = formatCurrency(financingCostsB);
     
     // Update rate and time displays
-    document.getElementById('zinssatz-a-display').textContent = data.zinssatz_a || data.zinssatz;
-    document.getElementById('zinssatz-b-display').textContent = data.zinssatz_b || data.zinssatz;
-    document.getElementById('bauzeit-a-display').textContent = bauzeitA;
-    document.getElementById('bauzeit-b-display').textContent = bauzeitB;
+    const zinssatzADisplay = document.getElementById('zinssatz-a-display');
+    const zinssatzBDisplay = document.getElementById('zinssatz-b-display');
+    const bauzeitADisplay = document.getElementById('bauzeit-a-display');
+    const bauzeitBDisplay = document.getElementById('bauzeit-b-display');
+    if (zinssatzADisplay) zinssatzADisplay.textContent = data['zinssatz-a'] || data.zinssatz;
+    if (zinssatzBDisplay) zinssatzBDisplay.textContent = data['zinssatz-b'] || data.zinssatz;
+    if (bauzeitADisplay) bauzeitADisplay.textContent = bauzeitA;
+    if (bauzeitBDisplay) bauzeitBDisplay.textContent = bauzeitB;
   }
   
   // Sale calculations
@@ -884,16 +895,26 @@ function calculate() {
     const nettoVerkaufB = bruttoVerkaufB - vertriebskostenB - sonstigeKostenB;
     
     // Update Klaus values
-    document.getElementById('brutto-verkauf-a').textContent = formatCurrency(bruttoVerkaufA);
-    document.getElementById('calc-vertriebskosten-a').textContent = formatCurrency(-vertriebskostenA);
-    document.getElementById('sale-other-costs-a').textContent = formatCurrency(-sonstigeKostenA);
-    document.getElementById('netto-verkauf-a').textContent = formatCurrency(nettoVerkaufA);
+    const bruttoVerkaufAEl = document.getElementById('brutto-verkauf-a');
+    const calcVertriebskostenAEl = document.getElementById('calc-vertriebskosten-a');
+    const saleOtherCostsAEl = document.getElementById('sale-other-costs-a');
+    const nettoVerkaufAEl = document.getElementById('netto-verkauf-a');
+    
+    if (bruttoVerkaufAEl) bruttoVerkaufAEl.textContent = formatCurrency(bruttoVerkaufA);
+    if (calcVertriebskostenAEl) calcVertriebskostenAEl.textContent = formatCurrency(-vertriebskostenA);
+    if (saleOtherCostsAEl) saleOtherCostsAEl.textContent = formatCurrency(-sonstigeKostenA);
+    if (nettoVerkaufAEl) nettoVerkaufAEl.textContent = formatCurrency(nettoVerkaufA);
     
     // Update Kevin values
-    document.getElementById('brutto-verkauf-b').textContent = formatCurrency(bruttoVerkaufB);
-    document.getElementById('calc-vertriebskosten-b').textContent = formatCurrency(-vertriebskostenB);
-    document.getElementById('sale-other-costs-b').textContent = formatCurrency(-sonstigeKostenB);
-    document.getElementById('netto-verkauf-b').textContent = formatCurrency(nettoVerkaufB);
+    const bruttoVerkaufBEl = document.getElementById('brutto-verkauf-b');
+    const calcVertriebskostenBEl = document.getElementById('calc-vertriebskosten-b');
+    const saleOtherCostsBEl = document.getElementById('sale-other-costs-b');
+    const nettoVerkaufBEl = document.getElementById('netto-verkauf-b');
+    
+    if (bruttoVerkaufBEl) bruttoVerkaufBEl.textContent = formatCurrency(bruttoVerkaufB);
+    if (calcVertriebskostenBEl) calcVertriebskostenBEl.textContent = formatCurrency(-vertriebskostenB);
+    if (saleOtherCostsBEl) saleOtherCostsBEl.textContent = formatCurrency(-sonstigeKostenB);
+    if (nettoVerkaufBEl) nettoVerkaufBEl.textContent = formatCurrency(nettoVerkaufB);
   }
   
   // Update partner revenue split display
@@ -901,10 +922,15 @@ function calculate() {
     const revenueSplitA = state.revenueSplit.followsCostSplit ? state.partnerSplit.a : state.revenueSplit.a;
     const revenueSplitB = state.revenueSplit.followsCostSplit ? state.partnerSplit.b : state.revenueSplit.b;
     
-    document.getElementById('revenue-split-a-display').textContent = revenueSplitA;
-    document.getElementById('revenue-split-b-display').textContent = revenueSplitB;
-    document.getElementById('partner-a-revenue').textContent = formatCurrency(nettoVerkauf * (revenueSplitA / 100));
-    document.getElementById('partner-b-revenue').textContent = formatCurrency(nettoVerkauf * (revenueSplitB / 100));
+    const revenueSplitADisplay = document.getElementById('revenue-split-a-display');
+    const revenueSplitBDisplay = document.getElementById('revenue-split-b-display');
+    const partnerARevenue = document.getElementById('partner-a-revenue');
+    const partnerBRevenue = document.getElementById('partner-b-revenue');
+    
+    if (revenueSplitADisplay) revenueSplitADisplay.textContent = revenueSplitA;
+    if (revenueSplitBDisplay) revenueSplitBDisplay.textContent = revenueSplitB;
+    if (partnerARevenue) partnerARevenue.textContent = formatCurrency(nettoVerkauf * (revenueSplitA / 100));
+    if (partnerBRevenue) partnerBRevenue.textContent = formatCurrency(nettoVerkauf * (revenueSplitB / 100));
   }
   
   // Profit calculations
@@ -985,12 +1011,19 @@ function calculate() {
     const profitA = projectProfit * (revenueSplitA / 100);
     const profitB = projectProfit * (revenueSplitB / 100);
     
-    document.getElementById('partner-a-metric-percent').textContent = state.partnerSplit.a + '%';
-    document.getElementById('partner-b-metric-percent').textContent = state.partnerSplit.b + '%';
-    document.getElementById('partner-a-share').textContent = formatCurrency(shareA);
-    document.getElementById('partner-b-share').textContent = formatCurrency(shareB);
-    document.getElementById('partner-a-profit').textContent = formatCurrency(profitA);
-    document.getElementById('partner-b-profit').textContent = formatCurrency(profitB);
+    const partnerAMetricPercent = document.getElementById('partner-a-metric-percent');
+    const partnerBMetricPercent = document.getElementById('partner-b-metric-percent');
+    const partnerAShare = document.getElementById('partner-a-share');
+    const partnerBShare = document.getElementById('partner-b-share');
+    const partnerAProfit = document.getElementById('partner-a-profit');
+    const partnerBProfit = document.getElementById('partner-b-profit');
+    
+    if (partnerAMetricPercent) partnerAMetricPercent.textContent = state.partnerSplit.a + '%';
+    if (partnerBMetricPercent) partnerBMetricPercent.textContent = state.partnerSplit.b + '%';
+    if (partnerAShare) partnerAShare.textContent = formatCurrency(shareA);
+    if (partnerBShare) partnerBShare.textContent = formatCurrency(shareB);
+    if (partnerAProfit) partnerAProfit.textContent = formatCurrency(profitA);
+    if (partnerBProfit) partnerBProfit.textContent = formatCurrency(profitB);
   }
   
   // Update metric card colors based on profit/loss
@@ -1023,14 +1056,22 @@ function calculate() {
     
     // Update partner summary values
     // Klaus
-    document.getElementById('summary-eigenkapital-a').textContent = formatCurrency(data.eigenkapital_a);
-    document.getElementById('summary-beleihung-a').textContent = formatCurrency(data.beleihung_a);
-    document.getElementById('summary-kredit-a').textContent = formatCurrency(creditA);
+    const summaryEigenkapitalA = document.getElementById('summary-eigenkapital-a');
+    const summaryBeleihungA = document.getElementById('summary-beleihung-a');
+    const summaryKreditA = document.getElementById('summary-kredit-a');
+    
+    if (summaryEigenkapitalA) summaryEigenkapitalA.textContent = formatCurrency(data['eigenkapital-a']);
+    if (summaryBeleihungA) summaryBeleihungA.textContent = formatCurrency(data['beleihung-a']);
+    if (summaryKreditA) summaryKreditA.textContent = formatCurrency(creditA);
     
     // Kevin
-    document.getElementById('summary-eigenkapital-b').textContent = formatCurrency(data.eigenkapital_b);
-    document.getElementById('summary-beleihung-b').textContent = formatCurrency(data.beleihung_b);
-    document.getElementById('summary-kredit-b').textContent = formatCurrency(creditB);
+    const summaryEigenkapitalB = document.getElementById('summary-eigenkapital-b');
+    const summaryBeleihungB = document.getElementById('summary-beleihung-b');
+    const summaryKreditB = document.getElementById('summary-kredit-b');
+    
+    if (summaryEigenkapitalB) summaryEigenkapitalB.textContent = formatCurrency(data['eigenkapital-b']);
+    if (summaryBeleihungB) summaryBeleihungB.textContent = formatCurrency(data['beleihung-b']);
+    if (summaryKreditB) summaryKreditB.textContent = formatCurrency(creditB);
     
     // Calculate partner profits based on revenue split
     const revenueSplitA = state.revenueSplit.followsCostSplit ? state.partnerSplit.a : state.revenueSplit.a;
@@ -1039,17 +1080,23 @@ function calculate() {
     const profitA = projectProfit * (revenueSplitA / 100);
     const profitB = projectProfit * (revenueSplitB / 100);
     
-    document.getElementById('summary-gewinn-a').textContent = formatCurrency(profitA);
-    document.getElementById('summary-gewinn-b').textContent = formatCurrency(profitB);
+    const summaryGewinnA = document.getElementById('summary-gewinn-a');
+    const summaryGewinnB = document.getElementById('summary-gewinn-b');
+    
+    if (summaryGewinnA) summaryGewinnA.textContent = formatCurrency(profitA);
+    if (summaryGewinnB) summaryGewinnB.textContent = formatCurrency(profitB);
     
     // Calculate partner returns
-    const fundsA = data.eigenkapital_a;
-    const fundsB = data.eigenkapital_b;
+    const fundsA = data['eigenkapital-a'];
+    const fundsB = data['eigenkapital-b'];
     const returnA = fundsA > 0 ? (Math.pow(1 + (profitA / fundsA), 12 / data.bauzeit) - 1) * 100 : 0;
     const returnB = fundsB > 0 ? (Math.pow(1 + (profitB / fundsB), 12 / data.bauzeit) - 1) * 100 : 0;
     
-    document.getElementById('summary-rendite-a').textContent = formatPercent(returnA);
-    document.getElementById('summary-rendite-b').textContent = formatPercent(returnB);
+    const summaryRenditeA = document.getElementById('summary-rendite-a');
+    const summaryRenditeB = document.getElementById('summary-rendite-b');
+    
+    if (summaryRenditeA) summaryRenditeA.textContent = formatPercent(returnA);
+    if (summaryRenditeB) summaryRenditeB.textContent = formatPercent(returnB);
   }
   
   // Prepare print view data
@@ -1974,9 +2021,7 @@ function loadProject(e) {
         }
       });
       
-      // Load current scenario
-      switchScenario(state.currentScenario);
-      switchTab(state.currentTab);
+      // First set up the partner view to ensure DOM elements exist
       togglePartnerView(state.partnerView);
       
       // Update construction mode
@@ -1986,8 +2031,15 @@ function loadProject(e) {
       document.getElementById('detailed-construction').style.display = 
         state.constructionMode === 'detailed' ? 'block' : 'none';
       
+      // Load current scenario (this will call calculate())
+      switchScenario(state.currentScenario);
+      switchTab(state.currentTab);
+      
       loadConstructionItems();
       updatePartnerSplitDisplay();
+      
+      // Final calculation after all DOM setup is complete
+      calculate();
       
       alert('Projekt erfolgreich geladen!');
     } catch (error) {
