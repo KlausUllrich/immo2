@@ -22,12 +22,10 @@
                     <div class="partner-toggle">
                         <button class="toggle-btn active" data-view="combined">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                                <circle cx="9" cy="7" r="4"></circle>
-                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
                             </svg>
-                            Gemeinsam
+                            Alleine
                         </button>
                         <button class="toggle-btn" data-view="split">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -41,6 +39,20 @@
                         </button>
                     </div>
                     <div class="header-actions">
+                        <button class="btn-icon" title="Projekt speichern (JSON)" id="saveProjectBtn">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                                <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                                <polyline points="7 3 7 8 15 8"></polyline>
+                            </svg>
+                        </button>
+                        <button class="btn-icon" title="Projekt laden (JSON)" id="loadProjectBtn">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="17 8 12 3 7 8"></polyline>
+                                <line x1="12" y1="3" x2="12" y2="15"></line>
+                            </svg>
+                        </button>
                         <button class="btn-icon" title="Drucken" onclick="window.print()">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M6 9V2h12v7"></path>
@@ -48,7 +60,7 @@
                                 <path d="M6 14h12v8H6z"></path>
                             </svg>
                         </button>
-                        <button class="btn-icon" title="Exportieren" id="exportBtn">
+                        <button class="btn-icon" title="Als CSV speichern" id="exportBtn">
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                                 <polyline points="7 10 12 15 17 10"></polyline>
@@ -149,7 +161,7 @@
                         <div class="input-group">
                             <label for="grundstueck">Grundstückspreis</label>
                             <div class="currency-input">
-                                <input type="number" id="grundstueck" value="2200000" step="5000" min="0">
+                                <input type="number" id="grundstueck" value="1900000" step="5000" min="0">
                                 <div class="step-buttons">
                                     <button class="step-btn step-up" data-input="grundstueck" data-step="5000">▲</button>
                                     <button class="step-btn step-down" data-input="grundstueck" data-step="-5000">▼</button>
@@ -234,17 +246,6 @@
                                     </div>
                                 </div>
                                 <div class="input-group">
-                                    <label for="beleihung">Beleihung Bestandsimmobilie</label>
-                                    <div class="currency-input">
-                                        <input type="number" id="beleihung" value="640000" step="5000" min="0">
-                                        <div class="step-buttons">
-                                            <button class="step-btn step-up" data-input="beleihung" data-step="5000">▲</button>
-                                            <button class="step-btn step-down" data-input="beleihung" data-step="-5000">▼</button>
-                                        </div>
-                                        <span class="currency">€</span>
-                                    </div>
-                                </div>
-                                <div class="input-group">
                                     <label for="zinssatz">Zinssatz p.a.</label>
                                     <div class="percentage-input">
                                         <input type="number" id="zinssatz" value="3.7" min="0" max="20" step="0.1">
@@ -254,7 +255,7 @@
                                 <div class="input-group">
                                     <label for="bauzeit">Zeit bis Verkauf</label>
                                     <div class="number-input">
-                                        <input type="number" id="bauzeit" value="18" min="1" max="60" step="1">
+                                        <input type="number" id="bauzeit" value="36" min="1" max="60" step="1">
                                         <span class="unit">Monate</span>
                                     </div>
                                 </div>
@@ -280,14 +281,7 @@
                                     <div class="input-group">
                                         <label for="eigenkapital-a">Eigenkapital</label>
                                         <div class="currency-input">
-                                            <input type="number" id="eigenkapital-a" value="500000" step="5000" min="0">
-                                            <span class="currency">€</span>
-                                        </div>
-                                    </div>
-                                    <div class="input-group">
-                                        <label for="beleihung-a">Beleihung</label>
-                                        <div class="currency-input">
-                                            <input type="number" id="beleihung-a" value="320000" step="5000" min="0">
+                                            <input type="number" id="eigenkapital-a" value="1000000" step="5000" min="0">
                                             <span class="currency">€</span>
                                         </div>
                                     </div>
@@ -301,7 +295,7 @@
                                     <div class="input-group">
                                         <label for="bauzeit-a">Zeit bis Verkauf</label>
                                         <div class="number-input">
-                                            <input type="number" id="bauzeit-a" value="18" min="1" max="60" step="1">
+                                            <input type="number" id="bauzeit-a" value="36" min="1" max="60" step="1">
                                             <span class="unit">Monate</span>
                                         </div>
                                     </div>
@@ -328,23 +322,16 @@
                                         </div>
                                     </div>
                                     <div class="input-group">
-                                        <label for="beleihung-b">Beleihung</label>
-                                        <div class="currency-input">
-                                            <input type="number" id="beleihung-b" value="320000" step="5000" min="0">
-                                            <span class="currency">€</span>
-                                        </div>
-                                    </div>
-                                    <div class="input-group">
                                         <label for="zinssatz-b">Zinssatz p.a.</label>
                                         <div class="percentage-input">
-                                            <input type="number" id="zinssatz-b" value="3.7" min="0" max="20" step="0.1">
+                                            <input type="number" id="zinssatz-b" value="3.8" min="0" max="20" step="0.1">
                                             <span class="unit">%</span>
                                         </div>
                                     </div>
                                     <div class="input-group">
                                         <label for="bauzeit-b">Zeit bis Verkauf</label>
                                         <div class="number-input">
-                                            <input type="number" id="bauzeit-b" value="18" min="1" max="60" step="1">
+                                            <input type="number" id="bauzeit-b" value="36" min="1" max="60" step="1">
                                             <span class="unit">Monate</span>
                                         </div>
                                     </div>
@@ -370,10 +357,6 @@
                             <span>- Eigenkapital</span>
                             <span class="value" id="summary-eigenkapital">0 €</span>
                         </div>
-                        <div class="summary-item">
-                            <span>- Beleihung</span>
-                            <span class="value" id="summary-beleihung">0 €</span>
-                        </div>
                         <div class="summary-item emphasized">
                             <span>= Finanzierungsbedarf</span>
                             <span class="value" id="financing-need">0 €</span>
@@ -385,15 +368,11 @@
                     </div>
                     
                     <div class="allocation-bar combined-only">
-                        <div class="bar-segment eigenkapital" style="width: 30%">
+                        <div class="bar-segment eigenkapital">
                             <span>Eigenkapital</span>
                             <span class="percentage">30%</span>
                         </div>
-                        <div class="bar-segment beleihung" style="width: 20%">
-                            <span>Beleihung</span>
-                            <span class="percentage">20%</span>
-                        </div>
-                        <div class="bar-segment kredit" style="width: 50%">
+                        <div class="bar-segment kredit">
                             <span>Kredit</span>
                             <span class="percentage">50%</span>
                         </div>
@@ -408,10 +387,6 @@
                                     <span>Eigenkapital</span>
                                     <span class="percentage" id="klaus-eigenkapital-percent">30%</span>
                                 </div>
-                                <div class="bar-segment beleihung" id="klaus-beleihung-bar" style="width: 20%">
-                                    <span>Beleihung</span>
-                                    <span class="percentage" id="klaus-beleihung-percent">20%</span>
-                                </div>
                                 <div class="bar-segment kredit" id="klaus-kredit-bar" style="width: 50%">
                                     <span>Kredit</span>
                                     <span class="percentage" id="klaus-kredit-percent">50%</span>
@@ -425,10 +400,6 @@
                                 <div class="bar-segment eigenkapital" id="kevin-eigenkapital-bar" style="width: 30%">
                                     <span>Eigenkapital</span>
                                     <span class="percentage" id="kevin-eigenkapital-percent">30%</span>
-                                </div>
-                                <div class="bar-segment beleihung" id="kevin-beleihung-bar" style="width: 20%">
-                                    <span>Beleihung</span>
-                                    <span class="percentage" id="kevin-beleihung-percent">20%</span>
                                 </div>
                                 <div class="bar-segment kredit" id="kevin-kredit-bar" style="width: 50%">
                                     <span>Kredit</span>
@@ -577,23 +548,12 @@
                             </div>
                             <div class="revenue-split-slider" id="revenue-split-slider-container" style="display: none;">
                                 <div class="split-slider-container">
-                                    <input type="range" id="revenue-split-slider" min="0" max="100" value="50" class="slider" style="width: 100%;">
+                                    <input type="range" id="revenue-split-slider" min="0" max="100" value="50" style="width: 100%;">
                                 </div>
                                 <div class="split-slider-labels">
                                     <span>Klaus: <strong id="revenue-split-a">50</strong>%</span>
                                     <span>Kevin: <strong id="revenue-split-b">50</strong>%</span>
                                 </div>
-                            </div>
-                        </div>
-                        <!-- Partner Revenue Details -->
-                        <div class="partner-revenue-details">
-                            <div class="revenue-detail-item">
-                                <span>Klaus (<span id="revenue-split-a-display">50</span>%)</span>
-                                <span class="value" id="partner-a-revenue">3.370.000 €</span>
-                            </div>
-                            <div class="revenue-detail-item">
-                                <span>Kevin (<span id="revenue-split-b-display">50</span>%)</span>
-                                <span class="value" id="partner-b-revenue">3.370.000 €</span>
                             </div>
                         </div>
                     </div>
@@ -683,11 +643,10 @@
                         </div>
                         <div class="metric-card profit">
                             <div class="metric-header">
-                                <h3>Rendite p.a.</h3>
+                                <h3>Rendite p.a. auf Eigenkapital</h3>
                                 <span class="trend-indicator up">↗</span>
                             </div>
                             <div class="metric-value" id="annual-return">22.5%</div>
-                            <div class="metric-subtitle">auf Eigenkapital</div>
                         </div>
                     </div>
                     
@@ -702,10 +661,6 @@
                                 <div class="summary-item">
                                     <span>Eigenkapital</span>
                                     <span class="value" id="summary-eigenkapital-a">500.000 €</span>
-                                </div>
-                                <div class="summary-item">
-                                    <span>Beleihung</span>
-                                    <span class="value" id="summary-beleihung-a">320.000 €</span>
                                 </div>
                                 <div class="summary-item">
                                     <span>Kreditbedarf</span>
@@ -725,10 +680,6 @@
                                 <div class="summary-item">
                                     <span>Eigenkapital</span>
                                     <span class="value" id="summary-eigenkapital-b">500.000 €</span>
-                                </div>
-                                <div class="summary-item">
-                                    <span>Beleihung</span>
-                                    <span class="value" id="summary-beleihung-b">320.000 €</span>
                                 </div>
                                 <div class="summary-item">
                                     <span>Kreditbedarf</span>
@@ -793,8 +744,13 @@
                                     <td class="number" id="breakdown-unvorhergesehenes">322.000 €</td>
                                     <td class="percentage" id="breakdown-unvorhergesehenes-percent">5.4%</td>
                                 </tr>
+                                <tr>
+                                    <td>Finanzierungskosten</td>
+                                    <td class="number" id="breakdown-finanzierung">0 €</td>
+                                    <td class="percentage" id="breakdown-finanzierung-percent">0.0%</td>
+                                </tr>
                                 <tr class="total-row">
-                                    <td><strong>Gesamtkosten</strong></td>
+                                    <td><strong>Gesamtinvestition</strong></td>
                                     <td class="number" id="breakdown-total"><strong>6.002.000 €</strong></td>
                                     <td class="percentage"><strong>100%</strong></td>
                                 </tr>
@@ -943,25 +899,6 @@
                 </div>
             </div>
 
-            <!-- Save/Load Controls -->
-            <div class="save-load-controls">
-                <button class="btn-secondary" id="saveProjectBtn">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
-                        <polyline points="17 21 17 13 7 13 7 21"></polyline>
-                        <polyline points="7 3 7 8 15 8"></polyline>
-                    </svg>
-                    Projekt speichern
-                </button>
-                <button class="btn-secondary" id="loadProjectBtn">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                        <polyline points="17 8 12 3 7 8"></polyline>
-                        <line x1="12" y1="3" x2="12" y2="15"></line>
-                    </svg>
-                    Projekt laden
-                </button>
-            </div>
         </div>
     </div>
 

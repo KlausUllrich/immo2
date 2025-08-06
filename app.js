@@ -10,7 +10,7 @@ const state = {
     realistic: {
       name: 'Realistic Case',
       data: {
-        grundstueck: 2200000,
+        grundstueck: 1900000,
         makler: 3.57,
         abriss: 150000,
         wohnflaeche: 800,
@@ -18,20 +18,17 @@ const state = {
         baunebenkosten: 15,
         unvorhergesehen: 10,
         eigenkapital: 1000000,
-        beleihung: 640000,
         beteiligung: 50,
         zinssatz: 3.7,
         'zinssatz-a': 3.7,
-        'zinssatz-b': 3.7,
-        bauzeit: 18,
-        'bauzeit-a': 18,
-        'bauzeit-b': 18,
+        'zinssatz-b': 3.8,
+        bauzeit: 36,
+        'bauzeit-a': 36,
+        'bauzeit-b': 36,
         verkaufspreis_qm: 8750,
         vertriebskosten: 3,
-        'eigenkapital-a': 500000,
+        'eigenkapital-a': 1000000,
         'eigenkapital-b': 500000,
-        'beleihung-a': 320000,
-        'beleihung-b': 320000
       },
       constructionItems: [
         { id: 'tiefbau', name: 'Tiefbau', cost: 300000 },
@@ -58,42 +55,71 @@ const state = {
   }
 };
 
-// Generate Best and Worst Case scenarios
+// Generate Best and Worst Case scenarios with specific values
 function generateScenarios() {
-  const baseData = { ...state.scenarios.realistic.data };
-  const baseItems = state.scenarios.realistic.constructionItems.map(item => ({ ...item }));
-  
-  // Best Case: -10% demolition, -15% construction costs, -10% contingency, +10% sales
+  // Best Case with specific values from JSON
   state.scenarios.best.data = {
-    ...baseData,
-    makler: baseData.makler,
-    abriss: Math.round(baseData.abriss * 0.9),
-    baukosten_qm: Math.round(baseData.baukosten_qm * 0.85),
-    unvorhergesehen: Math.max(5, baseData.unvorhergesehen - 10),
-    verkaufspreis_qm: Math.round(baseData.verkaufspreis_qm * 1.1)
+    grundstueck: 1900000,
+    makler: 3.57,
+    abriss: 135000,
+    wohnflaeche: 800,
+    baukosten_qm: 2975,
+    baunebenkosten: 15,
+    unvorhergesehen: 5,
+    eigenkapital: 1000000,
+    beteiligung: 50,
+    zinssatz: 3.7,
+    'zinssatz-a': 3.7,
+    'zinssatz-b': 3.7,
+    bauzeit: 18,
+    'bauzeit-a': 30,
+    'bauzeit-b': 30,
+    verkaufspreis_qm: 9000,
+    vertriebskosten: 3,
+    'eigenkapital-a': 500000,
+    'eigenkapital-b': 500000,
   };
   
-  // Best case construction items - 15% less
-  state.scenarios.best.constructionItems = baseItems.map(item => ({
-    ...item,
-    cost: Math.round(item.cost * 0.85)
-  }));
+  // Best case construction items
+  state.scenarios.best.constructionItems = [
+    { id: 'tiefbau', name: 'Tiefbau', cost: 255000 },
+    { id: 'rohbau', name: 'Rohbau', cost: 1020000 },
+    { id: 'innenausbau', name: 'Innenausbau', cost: 680000 },
+    { id: 'haustechnik', name: 'Haustechnik', cost: 340000 },
+    { id: 'garten', name: 'Außenanlagen/Garten', cost: 85000 }
+  ];
   
-  // Worst Case: +10% demolition, +15% construction costs, +10% contingency, -10% sales
+  // Worst Case with specific values from JSON
   state.scenarios.worst.data = {
-    ...baseData,
-    makler: baseData.makler,
-    abriss: Math.round(baseData.abriss * 1.1),
-    baukosten_qm: Math.round(baseData.baukosten_qm * 1.15),
-    unvorhergesehen: baseData.unvorhergesehen + 10,
-    verkaufspreis_qm: Math.round(baseData.verkaufspreis_qm * 0.9)
+    grundstueck: 2000000,
+    makler: 3.57,
+    abriss: 165000,
+    wohnflaeche: 800,
+    baukosten_qm: 4025,
+    baunebenkosten: 15,
+    unvorhergesehen: 20,
+    eigenkapital: 1000000,
+    beteiligung: 50,
+    zinssatz: 3.7,
+    'zinssatz-a': 3.7,
+    'zinssatz-b': 3.7,
+    bauzeit: 18,
+    'bauzeit-a': 40,
+    'bauzeit-b': 40,
+    verkaufspreis_qm: 8000,
+    vertriebskosten: 3,
+    'eigenkapital-a': 500000,
+    'eigenkapital-b': 500000,
   };
   
-  // Worst case construction items - 15% more
-  state.scenarios.worst.constructionItems = baseItems.map(item => ({
-    ...item,
-    cost: Math.round(item.cost * 1.15)
-  }));
+  // Worst case construction items
+  state.scenarios.worst.constructionItems = [
+    { id: 'tiefbau', name: 'Tiefbau', cost: 345000 },
+    { id: 'rohbau', name: 'Rohbau', cost: 1380000 },
+    { id: 'innenausbau', name: 'Innenausbau', cost: 920000 },
+    { id: 'haustechnik', name: 'Haustechnik', cost: 460000 },
+    { id: 'garten', name: 'Außenanlagen/Garten', cost: 115000 }
+  ];
 }
 
 // Initialize app
@@ -154,7 +180,7 @@ function setupEventListeners() {
     // Identify currency inputs (those with step >= 1 or specific IDs)
     const isCurrencyInput = (parseFloat(input.step) >= 1) || 
                            ['grundstueck', 'eigenkapital', 'eigenkapital-a', 'eigenkapital-b', 
-                            'beleihung', 'beleihung-a', 'beleihung-b', 'abriss'].includes(input.id);
+                            'abriss'].includes(input.id);
     
     // Format on blur - FIXED: Never format number inputs to prevent browser rejection
     input.addEventListener('blur', (e) => {
@@ -251,8 +277,9 @@ function setupEventListeners() {
       const valueB = 100 - valueA;
       state.partnerSplit.a = valueA;
       state.partnerSplit.b = valueB;
-      partnerAInput.value = valueA;
-      partnerBInput.value = valueB;
+      // Only update input fields if they exist
+      if (partnerAInput) partnerAInput.value = valueA;
+      if (partnerBInput) partnerBInput.value = valueB;
       updatePartnerSplitDisplay();
       calculate();
     });
@@ -506,6 +533,14 @@ function saveCurrentValues() {
     }
   });
   
+  // Ensure critical fields have default values if missing
+  if (!data.eigenkapital && document.getElementById('eigenkapital')) {
+    data.eigenkapital = parseFormattedNumber(document.getElementById('eigenkapital').value) || 0;
+  }
+  if (!data.bauzeit && document.getElementById('bauzeit')) {
+    data.bauzeit = parseFloat(document.getElementById('bauzeit').value) || 18;
+  }
+  
   state.scenarios[state.currentScenario].data = data;
 }
 
@@ -572,6 +607,13 @@ function togglePartnerView(view) {
   document.querySelectorAll('.combined-only').forEach(el => {
     el.style.display = view === 'combined' ? 'block' : 'none';
   });
+  
+  // Special handling for allocation bar - needs flex display
+  const allocationBar = document.querySelector('.allocation-bar.combined-only');
+  if (allocationBar && view === 'combined') {
+    allocationBar.style.display = 'flex';
+  }
+  
   document.querySelectorAll('.split-only').forEach(el => {
     el.style.display = view === 'split' ? 'block' : 'none';
   });
@@ -786,7 +828,7 @@ function calculate() {
   }
   
   // Financing
-  // UNIFIED: Use consistent calculation for both modes - always account for both eigenkapital and beleihung
+  // UNIFIED: Use consistent calculation for both modes - creditNeeded is totalInvestment minus eigenkapital only
   const yourShare = state.partnerView === 'combined' ? totalInvestment : totalInvestment * (data.beteiligung / 100);
   const creditNeeded = Math.max(0, yourShare - data.eigenkapital);
   
@@ -817,7 +859,6 @@ function calculate() {
   
   // Update financing summary section
   document.getElementById('summary-eigenkapital').textContent = formatCurrency(data.eigenkapital);
-  document.getElementById('summary-beleihung').textContent = formatCurrency(data.beleihung);
   document.getElementById('financing-need').textContent = formatCurrency(creditNeeded);
   document.getElementById('interest-rate-display').textContent = data.zinssatz;
   document.getElementById('bauzeit-display').textContent = data.bauzeit;
@@ -941,21 +982,46 @@ function calculate() {
   
   // Calculate profit based on revenue split (if enabled) or cost split
   let yourProfit;
+  let totalEigenkapital;
+  
   if (state.partnerView === 'split') {
     // In partner view, use the revenue split for profit distribution
     const revenueSplitA = state.revenueSplit.followsCostSplit ? state.partnerSplit.a : state.revenueSplit.a;
     const revenueSplitB = state.revenueSplit.followsCostSplit ? state.partnerSplit.b : state.revenueSplit.b;
     
-    // For display purposes, show partner A's profit as "your profit"
-    yourProfit = projectProfit * (revenueSplitA / 100);
+    // For overall project return, use total profit and combined eigenkapital
+    yourProfit = projectProfit; // Use full project profit for overall return calculation
+    const eigenkapitalA = parseFloat(data['eigenkapital-a']) || 0;
+    const eigenkapitalB = parseFloat(data['eigenkapital-b']) || 0;
+    totalEigenkapital = eigenkapitalA + eigenkapitalB;
   } else {
-    // In combined view, use the beteiligung percentage
-    yourProfit = projectProfit * (data.beteiligung / 100);
+    // In combined view, use full project profit (no beteiligung for overall project summary)
+    yourProfit = projectProfit;
+    totalEigenkapital = parseFloat(data.eigenkapital) || 0;
   }
   
-  const yourFunds = data.eigenkapital || 0;
-  const returnOnEquity = yourFunds > 0 ? (yourProfit / yourFunds) * 100 : 0;
-  const annualReturn = yourFunds > 0 ? (Math.pow(1 + (yourProfit / yourFunds), 12 / data.bauzeit) - 1) * 100 : 0;
+  // Calculate annualized return based on mode
+  let annualReturn = 0;
+  
+  if (state.partnerView === 'split') {
+    // In split mode, calculate weighted average return based on each partner's equity and duration
+    const eigenkapitalA = parseFloat(data['eigenkapital-a']) || 0;
+    const eigenkapitalB = parseFloat(data['eigenkapital-b']) || 0;
+    const bauzeitA = parseFloat(data['bauzeit-a']) || 18;
+    const bauzeitB = parseFloat(data['bauzeit-b']) || 18;
+    
+    if (totalEigenkapital > 0) {
+      // Calculate each partner's annualized return contribution weighted by their equity
+      const returnA = eigenkapitalA > 0 ? (yourProfit * (eigenkapitalA / totalEigenkapital)) / eigenkapitalA * (12 / bauzeitA) * 100 : 0;
+      const returnB = eigenkapitalB > 0 ? (yourProfit * (eigenkapitalB / totalEigenkapital)) / eigenkapitalB * (12 / bauzeitB) * 100 : 0;
+      // Weighted average return
+      annualReturn = (returnA * eigenkapitalA + returnB * eigenkapitalB) / totalEigenkapital;
+    }
+  } else {
+    // In combined mode, use simple annualization
+    const bauzeit = parseFloat(data.bauzeit) || 18;
+    annualReturn = totalEigenkapital > 0 && bauzeit > 0 ? (yourProfit / totalEigenkapital) * (12 / bauzeit) * 100 : 0;
+  }
   
   // Update summary UI
   document.getElementById('total-investment').textContent = formatCurrency(totalWithFinancing);
@@ -1001,8 +1067,8 @@ function calculate() {
   profitArrow.style.fontWeight = 'bold';
   profitElement.parentElement.appendChild(profitArrow);
   
-  // Update detailed breakdown with actual values
-  updateDetailedBreakdown(data, maklergebuehr, grunderwerbsteuer, notarkosten, reineBaukosten, baunebenkosten, unvorhergesehen, totalInvestment);
+  // Update detailed breakdown with actual values (totalWithFinancing already includes financing costs)
+  updateDetailedBreakdown(data, maklergebuehr, grunderwerbsteuer, notarkosten, reineBaukosten, baunebenkosten, unvorhergesehen, financingCosts, totalWithFinancing);
   
   // Update partner metrics in split mode
   if (state.partnerView === 'split') {
@@ -1060,20 +1126,16 @@ function calculate() {
     // Update partner summary values
     // Klaus
     const summaryEigenkapitalA = document.getElementById('summary-eigenkapital-a');
-    const summaryBeleihungA = document.getElementById('summary-beleihung-a');
     const summaryKreditA = document.getElementById('summary-kredit-a');
     
     if (summaryEigenkapitalA) summaryEigenkapitalA.textContent = formatCurrency(data['eigenkapital-a']);
-    if (summaryBeleihungA) summaryBeleihungA.textContent = formatCurrency(data['beleihung-a']);
     if (summaryKreditA) summaryKreditA.textContent = formatCurrency(creditA);
     
     // Kevin
     const summaryEigenkapitalB = document.getElementById('summary-eigenkapital-b');
-    const summaryBeleihungB = document.getElementById('summary-beleihung-b');
     const summaryKreditB = document.getElementById('summary-kredit-b');
     
     if (summaryEigenkapitalB) summaryEigenkapitalB.textContent = formatCurrency(data['eigenkapital-b']);
-    if (summaryBeleihungB) summaryBeleihungB.textContent = formatCurrency(data['beleihung-b']);
     if (summaryKreditB) summaryKreditB.textContent = formatCurrency(creditB);
     
     // Calculate partner profits based on revenue split
@@ -1130,35 +1192,40 @@ function updateAllocationBars(data, totalInvestment, creditNeeded) {
       }
       
       const eigenkapitalPercent = ((data.eigenkapital || 0) / totalFinancing) * 100;
-      const beleihungPercent = ((data.beleihung || 0) / totalFinancing) * 100;
       const kreditPercent = (creditNeeded / totalFinancing) * 100;
       
       // FIXED: Ensure percentages are valid numbers and safely handle NaN
       const safeEigenkapitalPercent = isNaN(eigenkapitalPercent) ? 0 : Math.max(0, eigenkapitalPercent);
-      const safeBeleihungPercent = isNaN(beleihungPercent) ? 0 : Math.max(0, beleihungPercent);
       const safeKreditPercent = isNaN(kreditPercent) ? 0 : Math.max(0, kreditPercent);
       
       // FIXED: Add null-safety for allocation bar elements
       const eigenkapitalBar = allocationBar.querySelector('.bar-segment.eigenkapital');
       const eigenkapitalPercentEl = allocationBar.querySelector('.bar-segment.eigenkapital .percentage');
-      const beleihungBar = allocationBar.querySelector('.bar-segment.beleihung');
-      const beleihungPercentEl = allocationBar.querySelector('.bar-segment.beleihung .percentage');
       const kreditBar = allocationBar.querySelector('.bar-segment.kredit');
       const kreditPercentEl = allocationBar.querySelector('.bar-segment.kredit .percentage');
       
       if (eigenkapitalBar && eigenkapitalPercentEl) {
-        eigenkapitalBar.style.width = `${safeEigenkapitalPercent.toFixed(1)}%`;
-        eigenkapitalPercentEl.textContent = `${safeEigenkapitalPercent.toFixed(0)}%`;
-      }
-      
-      if (beleihungBar && beleihungPercentEl) {
-        beleihungBar.style.width = `${safeBeleihungPercent.toFixed(1)}%`;
-        beleihungPercentEl.textContent = `${safeBeleihungPercent.toFixed(0)}%`;
+        if (safeEigenkapitalPercent === 0) {
+          eigenkapitalBar.style.width = '0%';
+          eigenkapitalPercentEl.textContent = '';
+        } else {
+          // Ensure minimum width for visibility when percentage > 0
+          const eigenkapitalWidth = Math.max(safeEigenkapitalPercent, 3);
+          eigenkapitalBar.style.width = `${eigenkapitalWidth.toFixed(1)}%`;
+          eigenkapitalPercentEl.textContent = `${safeEigenkapitalPercent.toFixed(0)}%`;
+        }
       }
       
       if (kreditBar && kreditPercentEl) {
-        kreditBar.style.width = `${safeKreditPercent.toFixed(1)}%`;
-        kreditPercentEl.textContent = `${safeKreditPercent.toFixed(0)}%`;
+        if (safeKreditPercent === 0) {
+          kreditBar.style.width = '0%';
+          kreditPercentEl.textContent = '';
+        } else {
+          // Ensure minimum width for visibility when percentage > 0
+          const kreditWidth = Math.max(safeKreditPercent, 3);
+          kreditBar.style.width = `${kreditWidth.toFixed(1)}%`;
+          kreditPercentEl.textContent = `${safeKreditPercent.toFixed(0)}%`;
+        }
       }
     }
   } else {
@@ -1177,66 +1244,68 @@ function updateAllocationBars(data, totalInvestment, creditNeeded) {
     
     // Klaus allocation bar - with NaN protection
     const klausEigenkapitalPercent = ((data['eigenkapital-a'] || 0) / klausInvestment) * 100;
-    const klausBeleihungPercent = ((data['beleihung-a'] || 0) / klausInvestment) * 100;
     const klausKreditPercent = (klausCreditNeeded / klausInvestment) * 100;
     
     const safeKlausEK = isNaN(klausEigenkapitalPercent) ? 0 : Math.max(0, klausEigenkapitalPercent);
-    const safeKlausBel = isNaN(klausBeleihungPercent) ? 0 : Math.max(0, klausBeleihungPercent);
     const safeKlausKredit = isNaN(klausKreditPercent) ? 0 : Math.max(0, klausKreditPercent);
     
     // FIXED: Add null-safety for Klaus allocation bars
     const klausEKBar = document.getElementById('klaus-eigenkapital-bar');
     const klausEKPercentEl = document.getElementById('klaus-eigenkapital-percent');
-    const klausBelBar = document.getElementById('klaus-beleihung-bar');
-    const klausBelPercentEl = document.getElementById('klaus-beleihung-percent');
     const klausKreditBarEl = document.getElementById('klaus-kredit-bar');
     const klausKreditPercentEl = document.getElementById('klaus-kredit-percent');
     
     if (klausEKBar && klausEKPercentEl) {
-      klausEKBar.style.width = `${safeKlausEK.toFixed(1)}%`;
-      klausEKPercentEl.textContent = `${safeKlausEK.toFixed(0)}%`;
-    }
-    
-    if (klausBelBar && klausBelPercentEl) {
-      klausBelBar.style.width = `${safeKlausBel.toFixed(1)}%`;
-      klausBelPercentEl.textContent = `${safeKlausBel.toFixed(0)}%`;
+      if (safeKlausEK === 0) {
+        klausEKBar.style.display = 'none';
+      } else {
+        klausEKBar.style.display = 'flex';
+        klausEKBar.style.width = `${safeKlausEK.toFixed(1)}%`;
+        klausEKPercentEl.textContent = `${safeKlausEK.toFixed(0)}%`;
+      }
     }
     
     if (klausKreditBarEl && klausKreditPercentEl) {
-      klausKreditBarEl.style.width = `${safeKlausKredit.toFixed(1)}%`;
-      klausKreditPercentEl.textContent = `${safeKlausKredit.toFixed(0)}%`;
+      if (safeKlausKredit === 0) {
+        klausKreditBarEl.style.display = 'none';
+      } else {
+        klausKreditBarEl.style.display = 'flex';
+        klausKreditBarEl.style.width = `${safeKlausKredit.toFixed(1)}%`;
+        klausKreditPercentEl.textContent = `${safeKlausKredit.toFixed(0)}%`;
+      }
     }
     
     // Kevin allocation bar - with NaN protection
     const kevinEigenkapitalPercent = ((data['eigenkapital-b'] || 0) / kevinInvestment) * 100;
-    const kevinBeleihungPercent = ((data['beleihung-b'] || 0) / kevinInvestment) * 100;
     const kevinKreditPercent = (kevinCreditNeeded / kevinInvestment) * 100;
     
     const safeKevinEK = isNaN(kevinEigenkapitalPercent) ? 0 : Math.max(0, kevinEigenkapitalPercent);
-    const safeKevinBel = isNaN(kevinBeleihungPercent) ? 0 : Math.max(0, kevinBeleihungPercent);
     const safeKevinKredit = isNaN(kevinKreditPercent) ? 0 : Math.max(0, kevinKreditPercent);
     
     // FIXED: Add null-safety for Kevin allocation bars
     const kevinEKBar = document.getElementById('kevin-eigenkapital-bar');
     const kevinEKPercentEl = document.getElementById('kevin-eigenkapital-percent');
-    const kevinBelBar = document.getElementById('kevin-beleihung-bar');
-    const kevinBelPercentEl = document.getElementById('kevin-beleihung-percent');
     const kevinKreditBarEl = document.getElementById('kevin-kredit-bar');
     const kevinKreditPercentEl = document.getElementById('kevin-kredit-percent');
     
     if (kevinEKBar && kevinEKPercentEl) {
-      kevinEKBar.style.width = `${safeKevinEK.toFixed(1)}%`;
-      kevinEKPercentEl.textContent = `${safeKevinEK.toFixed(0)}%`;
-    }
-    
-    if (kevinBelBar && kevinBelPercentEl) {
-      kevinBelBar.style.width = `${safeKevinBel.toFixed(1)}%`;
-      kevinBelPercentEl.textContent = `${safeKevinBel.toFixed(0)}%`;
+      if (safeKevinEK === 0) {
+        kevinEKBar.style.display = 'none';
+      } else {
+        kevinEKBar.style.display = 'flex';
+        kevinEKBar.style.width = `${safeKevinEK.toFixed(1)}%`;
+        kevinEKPercentEl.textContent = `${safeKevinEK.toFixed(0)}%`;
+      }
     }
     
     if (kevinKreditBarEl && kevinKreditPercentEl) {
-      kevinKreditBarEl.style.width = `${safeKevinKredit.toFixed(1)}%`;
-      kevinKreditPercentEl.textContent = `${safeKevinKredit.toFixed(0)}%`;
+      if (safeKevinKredit === 0) {
+        kevinKreditBarEl.style.display = 'none';
+      } else {
+        kevinKreditBarEl.style.display = 'flex';
+        kevinKreditBarEl.style.width = `${safeKevinKredit.toFixed(1)}%`;
+        kevinKreditPercentEl.textContent = `${safeKevinKredit.toFixed(0)}%`;
+      }
     }
   }
 }
@@ -1439,10 +1508,6 @@ function updatePrintView() {
         <tr>
           <td style="padding: 4px 4px 4px 20px;">Eigenkapital</td>
           <td style="text-align: right; padding: 4px;">${formatCurrency(data.eigenkapital)}</td>
-        </tr>
-        <tr>
-          <td style="padding: 4px 4px 4px 20px;">Beleihung</td>
-          <td style="text-align: right; padding: 4px;">${formatCurrency(data.beleihung)}</td>
         </tr>
         <tr>
           <td style="padding: 4px 4px 4px 20px;">Finanzierungsbedarf</td>
@@ -1694,7 +1759,7 @@ const priceHistoryData = {
 
 // Update price history table
 // Update detailed breakdown table
-function updateDetailedBreakdown(data, maklergebuehr, grunderwerbsteuer, notarkosten, reineBaukosten, baunebenkosten, unvorhergesehen, totalInvestment) {
+function updateDetailedBreakdown(data, maklergebuehr, grunderwerbsteuer, notarkosten, reineBaukosten, baunebenkosten, unvorhergesehen, financingCosts, totalWithFinancing) {
   // Update values
   const updateElement = (id, value) => {
     const element = document.getElementById(id);
@@ -1707,29 +1772,32 @@ function updateDetailedBreakdown(data, maklergebuehr, grunderwerbsteuer, notarko
   };
   
   updateElement('breakdown-grundstueck', data.grundstueck);
-  updatePercentage('breakdown-grundstueck-percent', data.grundstueck, totalInvestment);
+  updatePercentage('breakdown-grundstueck-percent', data.grundstueck, totalWithFinancing);
   
   updateElement('breakdown-grunderwerbsteuer', grunderwerbsteuer);
-  updatePercentage('breakdown-grunderwerbsteuer-percent', grunderwerbsteuer, totalInvestment);
+  updatePercentage('breakdown-grunderwerbsteuer-percent', grunderwerbsteuer, totalWithFinancing);
   
   updateElement('breakdown-notar', notarkosten);
-  updatePercentage('breakdown-notar-percent', notarkosten, totalInvestment);
+  updatePercentage('breakdown-notar-percent', notarkosten, totalWithFinancing);
   
   updateElement('breakdown-abriss', data.abriss);
-  updatePercentage('breakdown-abriss-percent', data.abriss, totalInvestment);
+  updatePercentage('breakdown-abriss-percent', data.abriss, totalWithFinancing);
   
   updateElement('breakdown-neubau', reineBaukosten);
-  updatePercentage('breakdown-neubau-percent', reineBaukosten, totalInvestment);
+  updatePercentage('breakdown-neubau-percent', reineBaukosten, totalWithFinancing);
   
   updateElement('breakdown-baunebenkosten', baunebenkosten);
-  updatePercentage('breakdown-baunebenkosten-percent', baunebenkosten, totalInvestment);
+  updatePercentage('breakdown-baunebenkosten-percent', baunebenkosten, totalWithFinancing);
   
   updateElement('breakdown-unvorhergesehenes', unvorhergesehen);
-  updatePercentage('breakdown-unvorhergesehenes-percent', unvorhergesehen, totalInvestment);
+  updatePercentage('breakdown-unvorhergesehenes-percent', unvorhergesehen, totalWithFinancing);
+  
+  updateElement('breakdown-finanzierung', financingCosts);
+  updatePercentage('breakdown-finanzierung-percent', financingCosts, totalWithFinancing);
   
   const totalElement = document.getElementById('breakdown-total');
   if (totalElement) {
-    totalElement.innerHTML = `<strong>${formatCurrency(totalInvestment)}</strong>`;
+    totalElement.innerHTML = `<strong>${formatCurrency(totalWithFinancing)}</strong>`;
   }
 }
 
@@ -1994,9 +2062,7 @@ function loadProject(e) {
         const defaultData = {
           sonstige_kosten_prozent: 5,
           'eigenkapital-a': 0,
-          'eigenkapital-b': 0,
-          'beleihung-a': 0,
-          'beleihung-b': 0
+          'eigenkapital-b': 0
         };
         Object.keys(defaultData).forEach(key => {
           if (scenario.data[key] === undefined) {
@@ -2131,18 +2197,15 @@ function exportData() {
   if (state.partnerView === 'combined') {
     csvData.push(
       ['Eigenkapital:', data.eigenkapital + ' €'],
-      ['Beleihung:', data.beleihung + ' €'],
       ['Beteiligung:', data.beteiligung + '%']
     );
   } else {
     csvData.push(
       ['FINANZIERUNG KLAUS'],
       ['Eigenkapital Klaus:', data['eigenkapital-a'] + ' €'],
-      ['Beleihung Klaus:', data['beleihung-a'] + ' €'],
       [''],
       ['FINANZIERUNG KEVIN'],
       ['Eigenkapital Kevin:', data['eigenkapital-b'] + ' €'],
-      ['Beleihung Kevin:', data['beleihung-b'] + ' €'],
       ['']
     );
   }

@@ -782,9 +782,6 @@ input[type="range"]::-webkit-slider-thumb:hover {
   background: var(--accent-green);
 }
 
-.bar-segment.beleihung {
-  background: var(--primary-blue);
-}
 
 .bar-segment.kredit {
   background: var(--accent-orange);
@@ -912,28 +909,19 @@ input[type="range"]::-webkit-slider-thumb:hover {
 }
 
 .revenue-split-slider {
+  margin-top: 1rem;
+  width: 100%;
   display: flex;
-  align-items: center;
-  gap: 1rem;
+  flex-direction: column;
 }
 
-.revenue-split-slider .split-control {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+.revenue-split-slider .split-slider-container {
+  display: block;
+  width: 100%;
 }
 
-.revenue-split-slider .split-input {
-  width: 60px;
-  padding: 0.5rem;
-  border: 1px solid var(--neutral-300);
-  border-radius: var(--radius-sm);
-  text-align: center;
-  font-size: 0.875rem;
-}
-
-.revenue-split-slider .slider {
-  flex: 1;
+.revenue-split-slider input[type="range"] {
+  width: 100%;
   height: 6px;
   -webkit-appearance: none;
   appearance: none;
@@ -942,7 +930,7 @@ input[type="range"]::-webkit-slider-thumb:hover {
   outline: none;
 }
 
-.revenue-split-slider .slider::-webkit-slider-thumb {
+.revenue-split-slider input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
   appearance: none;
   width: 20px;
@@ -953,13 +941,22 @@ input[type="range"]::-webkit-slider-thumb:hover {
   box-shadow: var(--shadow-sm);
 }
 
-.revenue-split-slider .slider::-moz-range-thumb {
+.revenue-split-slider input[type="range"]::-moz-range-thumb {
   width: 20px;
   height: 20px;
   background: var(--primary-blue);
   border-radius: 50%;
   cursor: pointer;
   box-shadow: var(--shadow-sm);
+}
+
+.revenue-split-slider .split-slider-labels {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 0.5rem;
+  font-size: 0.875rem;
+  color: var(--neutral-600);
 }
 
 /* Metrics Grid */
